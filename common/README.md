@@ -4,4 +4,4 @@ This directory contains shared assets and configurations that can be used across
 
 - **`prompts/`**: Universal prompt templates (e.g., bug fixing, documentation generation).
 - **`scripts/`**: Utility scripts for orchestrating AI workflows (e.g., repo analysis).
-- **`skills/`**: Shared skills that can be ported or adapted to different agents.
+- **`skills/`**: Shared skills that can be ported or adapted to different agents./
