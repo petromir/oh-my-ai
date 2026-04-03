@@ -33,7 +33,8 @@ By default, the script installs to **all** assistants and skips existing skills.
 ``` 
 
 ## Contributing
-// Add a link to CONTRIBUTING.md
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for simple rules and how to get started.
 
 ## TODO
 - Add testing scripts for skills. Use `promptfoo` or https://github.com/mgechev/skillgrade
