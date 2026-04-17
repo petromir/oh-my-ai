@@ -41,6 +41,8 @@ By default, the script installs to **all** assistants and skips existing skills.
 | OpenCode       |              |               |
 | Claude Code    |              |               |
 | Hermes Agent   |              |               |
+| Pi Agent       |              |               |
+| Droid Agent    |              |               |
 
 
 ## Contributing
