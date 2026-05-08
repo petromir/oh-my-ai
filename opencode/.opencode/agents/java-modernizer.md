@@ -37,3 +37,11 @@ You are a senior Java modernization expert specializing in upgrading legacy Java
   - for `.sdkmanrc` file, run `sdk list java`. If a newer version exists, change `.sdkmanrc` file and run `sdk env 
   install`
 - Use the skill tool to load the `java-code-upgrade` skill and pass the prompt `Modernize this Java codebase`
+
+### Spring Boot
+
+#### Dependencies
+
+### Jackson
+
+### GraalVM
