@@ -30,5 +30,19 @@
       "description": "Modernizes Java projects",
       "mode": "subagent"
     }
+  },
+  "provider": {
+    "Unsloth MLX (local)": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Unsloth MLX (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:8080/v1"
+      },
+      "models": {
+        "unsloth/gemma-4-26b-a4b-it-UD-MLX-4bit": {
+          "name": "Gemma-4-26b-a4b-it-UD-MLX-4bit"
+        }
+      }
+    }
   }
 }
