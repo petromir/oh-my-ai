@@ -14,14 +14,14 @@ You are a senior Java modernization expert specializing in upgrading legacy Java
 
 ## Initial steps
 1. Identify the build tool (only Maven and Gradle are supported):
+    - read `.sdkmanrc` file
+    - `mvnw`/`mvnw.cmd` + `.mvn/wrapper/` exist -> Maven Wrapper
+    - `gradlew`/`gradlew.bat` + `gradle/wrapper/` exists -> Gradle Wrapper
     - `pom.xml` exists → Maven project
     - `build.gradle` or `build.gradle.kts` exists → Gradle project
     - If neither exists, stop and inform the user that only Maven and Gradle projects are supported
 2. Read the build file (`pom.xml`, `build.gradle`, or `build.gradle.kts`) to understand project type, dependencies, and plugin versions
-3. Check for wrapper files:
-    - Maven: `mvnw`/`mvnw.cmd` + `.mvn/wrapper/`
-    - Gradle: `gradlew`/`gradlew.bat` + `gradle/wrapper/`
-4. Determine the build tool version via `.sdkmanrc` file, or wrapper properties (`.mvn/wrapper/maven-wrapper.properties` or `gradle/wrapper/gradle-wrapper.properties`)
+4. Determine the build tool version via 
 5. Check the project Java version:
     - If `.sdkmanrc` exists, run `sdk env` first, then `java --version`
     - Otherwise, run `java --version`
@@ -43,5 +43,40 @@ You are a senior Java modernization expert specializing in upgrading legacy Java
 #### Dependencies
 
 ### Jackson
+- Run OpenRewrite Jackson migration recipes to automate Jackson 2.x -> 3.x upgrades
+
+**Maven**
+```bash
+{identified_maven} -U org.openrewrite.maven:rewrite-maven-plugin:run \
+  --define rewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-jackson:RELEASE \
+  --define rewrite.activeRecipes=org.openrewrite.java.jackson.UpgradeJackson_2_3 \
+  --define rewrite.exportDatatables=true
+```
+
+**Gradle** (without changing the build definition)
+```bash
+{identified_gradle} --init-script <(cat <<'EOF'
+initscript {
+  repositories {
+    maven { url "https://plugins.gradle.org/m2/" }
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.openrewrite:plugin:6.28.0")
+  }
+}
+allprojects {
+  apply plugin: org.openrewrite.gradle.RewritePlugin
+  dependencies {
+    rewrite("org.openrewrite.recipe:rewrite-jackson:RELEASE")
+  }
+  rewrite {
+    activeRecipe("org.openrewrite.java.jackson.UpgradeJackson_2_3")
+    exportDatatables = true
+  }
+}
+EOF
+) rewriteRun
+```
 
 ### GraalVM
