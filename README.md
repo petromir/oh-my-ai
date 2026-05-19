@@ -12,7 +12,7 @@ To use these configurations, install them into your project or global config dir
 To automatically install skills from the `common/skills` folder to your assistant's configuration directories (Gemini, Copilot, Claude), run:
 
 ```bash
-./common/scripts/install-skills.sh
+./install-configs.sh
 ```
 
 By default, the script installs to **all** assistants and skips existing skills.
@@ -26,10 +26,10 @@ By default, the script installs to **all** assistants and skips existing skills.
 
 ```bash
 # Install only for Gemini
-./common/scripts/install-skills.sh -a gemini
+./install-configs.sh -a gemini
 
 # Install for Claude and Copilot, forcing override
-./common/scripts/install-skills.sh -f -a claude,copilot
+./install-configs.sh -f -a claude,copilot
 ``` 
 
 ## Agents comparison
