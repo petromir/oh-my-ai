@@ -30,20 +30,49 @@ By default, the script installs to **all** assistants and skips existing skills.
 
 # Install for Claude and Copilot, forcing override
 ./install-configs.sh -f -a claude,copilot
-``` 
+```
 
-## Agents comparison
+### Setting Environment Variables
 
-| Agent          | Installation | Configuration |
-|----------------|--------------|---------------|
-| Gemini CLI     |              |               |
-| GitHub Copilot |              |               |
-| OpenCode       |              |               |
-| Claude Code    |              |               |
-| Hermes Agent   |              |               |
-| Pi Agent       |              |               |
-| Droid Agent    |              |               |
+To append environment variables to your shell configuration files (`~/.zshrc`, `~/.zprofile`, `~/.bashrc`, `~/.bash_profile`), run:
 
+```bash
+./set_env_vars.sh
+```
+
+By default, the script updates **all** shell configs. You can target specific shells or force the overwriting the 
+existing definitions.
+
+#### Options
+
+- `-s <shell>`: Specify target shell (`bash`, `zshell`, or `all`). Can be used multiple times.
+- `-f`: Force overwrite existing variable definitions.
+- `-v`: Enable verbose output.
+
+**Examples:**
+
+```bash
+# Update only Bash configs
+./set_env_vars.sh -s bash
+
+# Update both Bash and Zsh configs
+./set_env_vars.sh -s bash -s zshell
+
+# Update all configs, forcing overwrite
+./set_env_vars.sh -f
+```
+
+> **Note:** Edit the `ENV_VARS` array inside the script to configure which variables are set.
+
+#### Pre-configured Environment Variables
+
+The script comes with the following environment variables already configured:
+
+| Variable                           | Value | Description                              |
+|------------------------------------|-------|------------------------------------------|
+| `OPENCODE_DISABLE_EXTERNAL_SKILLS` | `1`   | Disables external skills in OpenCode CLI |
+
+These variables are applied to all shell configuration files by default.
 
 ## Contributing
 
