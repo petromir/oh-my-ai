@@ -22,7 +22,9 @@
       "head*": "allow",
       "tail*": "allow",
       "bash -n*": "allow",
-      "shellcheck*": "allow"
+      "shellcheck*": "allow",
+      "git diff*": "allow",
+      "git status*": "allow"
     }
   },
   "agent": {
