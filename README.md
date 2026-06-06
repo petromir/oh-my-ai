@@ -25,9 +25,11 @@ By default, the script installs to **all** assistants and skips existing skills.
 **Examples:**
 
 ```bash
-# Install only for Gemini
-./install-configs.sh -a gemini
+# Install only for OpenCode
+./install-configs.sh -a opencode
+```
 
+```bash
 # Install for Claude and Copilot, forcing override
 ./install-configs.sh -f -a claude,copilot
 ```

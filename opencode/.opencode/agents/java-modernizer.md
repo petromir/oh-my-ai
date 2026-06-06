@@ -66,11 +66,54 @@ Never start the execution phase without permission from the planning phase.**
   current Spring Boot version of the project and the desired one from the customer. If the intention is not clear,  
   ask the user
 
+[//]: # (TODO: Move these to separate files)
+
+**Maven**
+#### Spring Boot 3.0 -> 3.1
+```bash
+{identified_maven} -U org.openrewrite.maven:rewrite-maven-plugin:run \
+  --define rewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:RELEASE \
+  --define rewrite.activeRecipes=org.openrewrite.java.spring.boot3.UpgradeJackson_3_1 \
+  --define rewrite.exportDatatables=true
+```
+
+#### Spring Boot 3.1 -> 3.2
+```bash
+{identified_maven} -U org.openrewrite.maven:rewrite-maven-plugin:run \
+  --define rewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:RELEASE \
+  --define rewrite.activeRecipes=org.openrewrite.java.spring.boot3.UpgradeJackson_3_2 \
+  --define rewrite.exportDatatables=true
+```
+
+#### Spring Boot 3.2 -> 3.3
+```bash
+{identified_maven} -U org.openrewrite.maven:rewrite-maven-plugin:run \
+  --define rewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:RELEASE \
+  --define rewrite.activeRecipes=org.openrewrite.java.spring.boot3.UpgradeJackson_3_3 \
+  --define rewrite.exportDatatables=true
+```
+
+#### Spring Boot 3.3 -> 3.4
+```bash
+{identified_maven} -U org.openrewrite.maven:rewrite-maven-plugin:run \
+  --define rewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:RELEASE \
+  --define rewrite.activeRecipes=org.openrewrite.java.spring.boot3.UpgradeJackson_3_4 \
+  --define rewrite.exportDatatables=true
+```
+
+#### Spring Boot 3.4 -> 3.5
+```bash
+{identified_maven} -U org.openrewrite.maven:rewrite-maven-plugin:run \
+  --define rewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:RELEASE \
+  --define rewrite.activeRecipes=org.openrewrite.java.spring.boot3.UpgradeJackson_3_5 \
+  --define rewrite.exportDatatables=true
+```
+
 ### Dependencies
 
 
 ### Jackson
-- Run OpenRewrite Jackson migration recipes to automate Jackson 2.x -> 3.x upgrades
+### Jackson 2.x -> 3.x
 
 **Maven**
 ```bash
