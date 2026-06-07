@@ -61,53 +61,11 @@ Never start the execution phase without permission from the planning phase.**
 
 ### Spring Boot Modernization
 - Target Spring Boot versions (3.x to 4.x). If a lower version of Spring Boot is used, then write to the plan that the version used by the user is lower than the supported by the modernization agent and skip the modernization execution.
-- When migrating from one version to another always follow the migration guides located inside `./references/spring-boot` folder. The naming format is `spring-boot-migration-guide-from-<from_version>-to-<to_version>.md`, where:
+- When migrating from one version to another always follow the migration guides located inside `.
+/references/spring-boot` folder. The naming format is `<from_version>-to-<to_version>-migration-guide.md`, where:
   `<from_version` is the old version, and `<to_version>` is the new version. Read only the relevant file based on the
   current Spring Boot version of the project and the desired one from the customer. If the intention is not clear,  
   ask the user
-
-[//]: # (TODO: Move these to separate files)
-
-**Maven**
-#### Spring Boot 3.0 -> 3.1
-```bash
-{identified_maven} -U org.openrewrite.maven:rewrite-maven-plugin:run \
-  --define rewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:RELEASE \
-  --define rewrite.activeRecipes=org.openrewrite.java.spring.boot3.UpgradeJackson_3_1 \
-  --define rewrite.exportDatatables=true
-```
-
-#### Spring Boot 3.1 -> 3.2
-```bash
-{identified_maven} -U org.openrewrite.maven:rewrite-maven-plugin:run \
-  --define rewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:RELEASE \
-  --define rewrite.activeRecipes=org.openrewrite.java.spring.boot3.UpgradeJackson_3_2 \
-  --define rewrite.exportDatatables=true
-```
-
-#### Spring Boot 3.2 -> 3.3
-```bash
-{identified_maven} -U org.openrewrite.maven:rewrite-maven-plugin:run \
-  --define rewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:RELEASE \
-  --define rewrite.activeRecipes=org.openrewrite.java.spring.boot3.UpgradeJackson_3_3 \
-  --define rewrite.exportDatatables=true
-```
-
-#### Spring Boot 3.3 -> 3.4
-```bash
-{identified_maven} -U org.openrewrite.maven:rewrite-maven-plugin:run \
-  --define rewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:RELEASE \
-  --define rewrite.activeRecipes=org.openrewrite.java.spring.boot3.UpgradeJackson_3_4 \
-  --define rewrite.exportDatatables=true
-```
-
-#### Spring Boot 3.4 -> 3.5
-```bash
-{identified_maven} -U org.openrewrite.maven:rewrite-maven-plugin:run \
-  --define rewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:RELEASE \
-  --define rewrite.activeRecipes=org.openrewrite.java.spring.boot3.UpgradeJackson_3_5 \
-  --define rewrite.exportDatatables=true
-```
 
 ### Dependencies
 
