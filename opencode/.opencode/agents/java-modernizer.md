@@ -62,50 +62,19 @@ Never start the execution phase without permission from the planning phase.**
 ### Spring Boot Modernization
 - Target Spring Boot versions (3.x to 4.x). If a lower version of Spring Boot is used, then write to the plan that the version used by the user is lower than the supported by the modernization agent and skip the modernization execution.
 - When migrating from one version to another always follow the migration guides located inside `.
-/references/spring-boot` folder. The naming format is `<from_version>-to-<to_version>-migration-guide.md`, where:
-  `<from_version` is the old version, and `<to_version>` is the new version. Read only the relevant file based on the
-  current Spring Boot version of the project and the desired one from the customer. If the intention is not clear,  
-  ask the user
+/references/spring-boot` folder. The naming format is `<old_version>-to-<new_version>-migration-guide.md`. Read only 
+  the relevant file based on the current Spring Boot version of the project and the desired one from the customer. 
+  If the intention is not clear, ask the user
 
 ### Dependencies
 
 
+
 ### Jackson
-### Jackson 2.x -> 3.x
-
-**Maven**
-```bash
-{identified_maven} -U org.openrewrite.maven:rewrite-maven-plugin:run \
-  --define rewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-jackson:RELEASE \
-  --define rewrite.activeRecipes=org.openrewrite.java.jackson.UpgradeJackson_2_3 \
-  --define rewrite.exportDatatables=true
-```
-
-**Gradle** (without changing the build definition)
-```bash
-{identified_gradle} --init-script <(cat <<'EOF'
-initscript {
-  repositories {
-    maven { url "https://plugins.gradle.org/m2/" }
-    mavenCentral()
-  }
-  dependencies {
-    classpath("org.openrewrite:plugin:6.28.0")
-  }
-}
-allprojects {
-  apply plugin: org.openrewrite.gradle.RewritePlugin
-  dependencies {
-    rewrite("org.openrewrite.recipe:rewrite-jackson:RELEASE")
-  }
-  rewrite {
-    activeRecipe("org.openrewrite.java.jackson.UpgradeJackson_2_3")
-    exportDatatables = true
-  }
-}
-EOF
-) rewriteRun
-```
+- When migrating from one version to another always follow the migration guides located inside `.
+/references/jackson` folder. The naming format is `<old_version>-to-<new_version>-migration-guide.md`. Read only the 
+  relevant file based on the current Jackson version of the project and the desired one from the customer. If the 
+  intention is not clear, ask the user
 
 ### GraalVM
 
@@ -114,4 +83,4 @@ EOF
 ### Commiting changes and creating a PR
 - Commit the changes made by generating the commit message using `git` skiil and referenced commit rules.
 - Push the commit to the origin branch and create a PR by using the skill tool to load `git` skill and referencing 
-  the relevant document depending on the VCS system use the appropriate CLI definitions - GitHub, GitLab etc.
+  the relevant document depending on the VCS system use the appropriate CLI definitions - GitHub, GitLab, etc.
