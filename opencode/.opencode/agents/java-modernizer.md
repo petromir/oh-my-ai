@@ -67,7 +67,8 @@ Never start the execution phase without permission from the planning phase.**
   If the intention is not clear, ask the user
 
 ### Dependencies
-
+- Spring Boot project -> check if the dependencies with explit versions are already part of Spring Boot dependencies.
+  If yes, remove the explicit version
 
 
 ### Jackson
