@@ -3,7 +3,7 @@ name: java-code-upgrade
 description: Upgrade Java code from older idioms to modern equivalents. Scans for legacy patterns (pre-Java 10 through Java 25) across language features, collections, strings, streams, concurrency, input/output, error handling, date/time, security, tooling, and enterprise APIs, then applies modern replacements. Use when modernizing Java codebases, reviewing pull requests for outdated patterns, or migrating from Java EE to Jakarta EE. Do not use for non-Java languages, build tool configuration, or framework-specific application logic.
 ---
 
-# Java Evolved — Code Upgrade Skill
+# Purpose
 
 Modernize Java code by identifying legacy patterns and applying modern replacements
 sourced from 113 patterns across 11 categories (Java 7 through Java 25).
