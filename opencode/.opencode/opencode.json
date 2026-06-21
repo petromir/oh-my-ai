@@ -24,7 +24,9 @@
       "bash -n*": "allow",
       "shellcheck*": "allow",
       "git diff*": "allow",
-      "git status*": "allow"
+      "git status*": "allow",
+      "git log*": "allow",
+      "tree*": "allow"
     }
   },
   "agent": {
