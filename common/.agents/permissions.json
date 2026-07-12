@@ -1,0 +1,528 @@
+{
+  "$schema": "https://github.com/Mearman/agent-permissions/releases/latest/download/agent-permissions.schema.json",
+  "defaultMode": "standard",
+  "sandbox": {
+    "mode": "workspace-write",
+    "writableRoots": [
+      "/tmp/*",
+      "~/agent-vault",
+      "~/agent-vault/*"
+    ]
+  },
+  "rules": [
+    {
+      "tool": "Read",
+      "pattern": "~/.ssh/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Read",
+      "pattern": "~/.gnupg/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Read",
+      "pattern": "~/.aws/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Read",
+      "pattern": "~/.azure/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Read",
+      "pattern": "~/.kube/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Read",
+      "pattern": "~/.docker/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Read",
+      "pattern": "~/.config/gcloud/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Read",
+      "pattern": ".env*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Read",
+      "pattern": "*/.env*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Read",
+      "pattern": "*.pem",
+      "tier": "deny"
+    },
+    {
+      "tool": "Read",
+      "pattern": "*.key",
+      "tier": "deny"
+    },
+    {
+      "tool": "Read",
+      "pattern": "*.p12",
+      "tier": "deny"
+    },
+    {
+      "tool": "Read",
+      "pattern": "*.jks",
+      "tier": "deny"
+    },
+    {
+      "tool": "Read",
+      "pattern": "*credentials*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": "~/.aws/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": "~/.azure/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": "~/.ssh/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": "~/.gnupg/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": "~/.kube/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": "~/.docker/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": "~/.config/gcloud/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": ".env*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": "*/.env*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": "*.pem",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": "*.key",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": "*.p12",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": "*.jks",
+      "tier": "deny"
+    },
+    {
+      "tool": "Edit",
+      "pattern": "*credentials*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": "~/.aws/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": "~/.azure/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": "~/.ssh/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": "~/.gnupg/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": "~/.kube/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": "~/.docker/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": "~/.config/gcloud/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": ".env*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": "*/.env*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": "*.pem",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": "*.key",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": "*.p12",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": "*.jks",
+      "tier": "deny"
+    },
+    {
+      "tool": "Write",
+      "pattern": "*credentials*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "~/.ssh/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "~/.gnupg/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "~/.aws/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "~/.azure/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "~/.kube/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "~/.docker/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "~/.config/gcloud/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": ".env*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "*/.env*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "*.pem",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "*.key",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "*.p12",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "*.jks",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "*credentials*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "*/node_modules/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "*/.git/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Grep",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "curl *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "wget *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "ssh *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "scp *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git push *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "brew install *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "npm publish *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "*.env*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "*.pem*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "*.key*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "*.p12*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "*.jks*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "*/.ssh/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "*/.gnupg/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "*/.aws/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "*/.azure/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "*/.kube/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "*/.docker/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "*/.config/gcloud/*",
+      "tier": "deny"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "rm *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "sudo rm *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "chmod -R *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "chmod 000 *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "chmod 0 *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "chown *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "sudo chown *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "dd *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "mkfs*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "shutdown*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "reboot*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "halt*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "poweroff*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "init 0*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "init 6*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "killall *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "pkill *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "kill -9 *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "ls *",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git push --force*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git push -f*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git reset --hard*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git clean -f*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git checkout -- *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git restore *",
+      "tier": "ask"
+    }
+  ]
+}
