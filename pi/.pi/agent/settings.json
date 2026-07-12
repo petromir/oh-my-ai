@@ -1,0 +1,49 @@
+{
+  "lastChangelogVersion": "0.80.3",
+  "theme": "light",
+  "defaultProvider": " opencode-go",
+  "defaultModel": "glm-5.2",
+  "defaultThinkingLevel": "medium",
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "treeFilterMode": "default",
+  "packages": [
+    "npm:pi-subagents",
+    "npm:@gotgenes/pi-permission-system",
+    "npm:pi-web-access"
+  ],
+  "subagents": {
+    "defaultModel": "qwen-3.7-max",
+    "agentOverrides": {
+      "scout": {
+        "thinking": "high",
+        "model": "deepseek-v4-pro"
+      },
+      "context-builder": {
+        "thinking": "medium",
+        "model": "glm-5.2"
+      },
+      "planner": {
+        "thinking": "medium",
+        "model": "glm-5.2"
+      },
+      "researcher": {
+        "thinking": "medium",
+        "model": "kimi-k2.7-code"
+      },
+      "worker": {
+        "thinking": "high",
+        "model": "qwen-3.7-max"
+      },
+      "reviewer": {
+        "thinking": "high",
+        "model": "kimi-k2.7-code"
+      },
+      "oracle": {
+        "thinking": "medium",
+        "model": "qwen-3.7-max"
+      }
+    }
+  }
+}

@@ -21,4 +21,4 @@ If the token is not set, **ask the user** to go at https://docs.github.com/en/au
 
 ## GitHub
 
-Refer to [github-cli](./references/github-cli.md) procedural guidance for using the GitHub CLI to interact with GitHub resources efficiently and securely.
+Refer to [github-cli](references/github-cli.md) procedural guidance for using the GitHub CLI to interact with GitHub resources efficiently and securely.
