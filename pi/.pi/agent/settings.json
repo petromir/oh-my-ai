@@ -3,7 +3,7 @@
   "theme": "light",
   "defaultProvider": " opencode-go",
   "defaultModel": "glm-5.2",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "high",
   "terminal": {
     "showTerminalProgress": true
   },
@@ -21,19 +21,19 @@
         "model": "deepseek-v4-pro"
       },
       "context-builder": {
-        "thinking": "medium",
+        "thinking": "high",
         "model": "glm-5.2"
       },
       "planner": {
-        "thinking": "medium",
+        "thinking": "high",
         "model": "glm-5.2"
       },
       "researcher": {
-        "thinking": "medium",
+        "thinking": "high",
         "model": "kimi-k2.7-code"
       },
       "worker": {
-        "thinking": "high",
+        "thinking": "medium",
         "model": "qwen-3.7-max"
       },
       "reviewer": {
@@ -41,7 +41,7 @@
         "model": "kimi-k2.7-code"
       },
       "oracle": {
-        "thinking": "medium",
+        "thinking": "high",
         "model": "qwen-3.7-max"
       }
     }
