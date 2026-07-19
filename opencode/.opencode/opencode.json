@@ -1,7 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "instructions": ["AGENTS.md"],
-  "snapshot": true,
   "autoupdate": true,
   "share": "manual",
   "permission": {
@@ -36,7 +35,7 @@
     }
   },
   "provider": {
-    "Unsloth MLX (local)": {
+    "unsloth-mlx-local": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Unsloth MLX (local)",
       "options": {
@@ -46,6 +45,11 @@
         "unsloth/gemma-4-26b-a4b-it-UD-MLX-4bit": {
           "name": "Gemma-4-26b-a4b-it-UD-MLX-4bit"
         }
+      }
+    },
+    "opencode-go": {
+      "options": {
+        "setCacheKey": true
       }
     }
   }
