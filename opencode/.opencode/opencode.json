@@ -52,5 +52,7 @@
         "setCacheKey": true
       }
     }
-  }
+  },
+  "lsp": true,
+  "small_model": "opencode-go/qwen3.7-max"
 }
