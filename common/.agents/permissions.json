@@ -523,6 +523,226 @@
       "tool": "Bash",
       "pattern": "git restore *",
       "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "find * -delete*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "find * -exec *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "find * -execdir *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "find * -fprintf *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "find * -ok *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "find * -okdir *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "find *-name*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "find *-iname*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "find *-type*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "find *-maxdepth*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "find *-mtime*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "find *-print*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "cat * > *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "cat * >> *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "cat * | sh*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "cat * | bash*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "cat *",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "echo * > *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "echo * >> *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "echo * | sh*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "echo * | bash*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "echo *",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git diff*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker ps*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker images*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker inspect*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker logs*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker version*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker info*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker top*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker port*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker diff*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker network ls*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker volume ls*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker container ls*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker stats --no-stream*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker run *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker exec *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker rm *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker rmi *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker stop *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker kill *",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker system prune*",
+      "tier": "ask"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "docker push *",
+      "tier": "ask"
     }
   ]
 }
