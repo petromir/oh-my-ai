@@ -8,6 +8,15 @@ This directory contains specialized configurations and custom tools for the `ope
 - `agents/` - Custom agents for specialized tasks.
   - `java-modernizer.md`: Expert Java application modernization specialist.
 
+## Configuration
+
+Big amount of `opencode.json` content was inspired by https://github.com/hossainemruz/dotfiles/blob/main/dot_config/opencode/opencode.json
+
+Run the following command to create the agent folder
+```bash
+mkdir "~/agent-vault
+```
+
 ## Custom Providers
 
 ### MLX-LM Provider

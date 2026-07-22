@@ -1,39 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": ["AGENTS.md"],
-  "autoupdate": true,
+  "autoupdate": false,
   "share": "manual",
-  "permission": {
-    "read": {
-      "*": "allow"
-    },
-    "glob": {
-      "*": "allow"
-    },
-    "bash": {
-      "*": "ask",
-      "mkdir*": "allow",
-      "ls*": "allow",
-      "cat*": "allow",
-      "grep*": "allow",
-      "find*": "allow",
-      "sort*": "allow",
-      "head*": "allow",
-      "tail*": "allow",
-      "bash -n*": "allow",
-      "shellcheck*": "allow",
-      "git diff*": "allow",
-      "git status*": "allow",
-      "git log*": "allow",
-      "tree*": "allow"
-    }
-  },
-  "agent": {
-    "java-modernizer": {
-      "description": "Modernizes Java projects",
-      "mode": "subagent"
-    }
-  },
   "provider": {
     "unsloth-mlx-local": {
       "npm": "@ai-sdk/openai-compatible",
@@ -53,6 +21,263 @@
       }
     }
   },
+  "model": "opencode-go/glm-5.2",
+  "small_model": "opencode-go/qwen3.7-max",
   "lsp": true,
-  "small_model": "opencode-go/qwen3.7-max"
+  "instructions": [
+    "./prompts/task-artifact-gate.md"
+  ],
+  "mcp": {
+    "fff": {
+      "type": "local",
+      "command": [
+        "fff-mcp"
+      ]
+    },
+    "ast-grep": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "--from",
+        "git+https://github.com/ast-grep/ast-grep-mcp@732c339c3812a44e9111e6c3aefec64894acd58f",
+        "ast-grep-server"
+      ]
+    }
+  },
+  "permission": {
+    "external_directory": {
+      "/tmp/*": "allow",
+      "~/agent-vault": "allow",
+      "~/agent-vault/*": "allow"
+    },
+    "read": {
+      "~/.ssh/*": "deny",
+      "~/.gnupg/*": "deny",
+      "~/.aws/*": "deny",
+      "~/.azure/*": "deny",
+      "~/.kube/*": "deny",
+      "~/.docker/*": "deny",
+      "~/.config/gcloud/*": "deny",
+      ".env*": "ask",
+      "*/.env*": "ask",
+      "*.pem": "deny",
+      "*.key": "deny",
+      "*.p12": "deny",
+      "*.jks": "deny",
+      "*credentials*": "deny"
+    },
+    "glob": {
+      "*": "allow"
+    },
+    "edit": {
+      "~/.aws/*": "deny",
+      "~/.azure/*": "deny",
+      "~/.ssh/*": "deny",
+      "~/.gnupg/*": "deny",
+      "~/.kube/*": "deny",
+      "~/.docker/*": "deny",
+      "~/.config/gcloud/*": "deny",
+      ".env*": "ask",
+      "*/.env*": "ask",
+      "*.pem": "deny",
+      "*.key": "deny",
+      "*.p12": "deny",
+      "*.jks": "deny",
+      "*credentials*": "deny"
+    },
+    "bash": {
+      "*": "ask",
+      "mkdir*": "allow",
+      "ls*": "allow",
+      "cat*": "allow",
+      "grep*": "allow",
+      "find*": "allow",
+      "sort*": "allow",
+      "head*": "allow",
+      "tail*": "allow",
+      "bash -n*": "allow",
+      "shellcheck*": "allow",
+      "tree*": "allow",
+      "curl *": "ask",
+      "wget *": "ask",
+      "ssh *": "ask",
+      "scp *": "ask",
+      "brew install *": "ask",
+      "npm publish *": "ask",
+      "*.env*": "ask",
+      "*.pem*": "deny",
+      "*.key*": "deny",
+      "*.p12*": "deny",
+      "*.jks*": "deny",
+      "*/.ssh/*": "deny",
+      "*/.gnupg/*": "deny",
+      "*/.aws/*": "deny",
+      "*/.azure/*": "deny",
+      "*/.kube/*": "deny",
+      "*/.docker/*": "deny",
+      "*/.config/gcloud/*": "deny",
+      "rm *": "ask",
+      "sudo rm *": "ask",
+      "chmod -R *": "ask",
+      "chmod 000 *": "ask",
+      "chmod 0 *": "ask",
+      "chown *": "ask",
+      "sudo chown *": "ask",
+      "dd *": "ask",
+      "mkfs*": "ask",
+      "shutdown*": "ask",
+      "reboot*": "ask",
+      "halt*": "ask",
+      "poweroff*": "ask",
+      "init 0*": "ask",
+      "init 6*": "ask",
+      "killall *": "ask",
+      "pkill *": "ask",
+      "kill -9 *": "ask",
+      "git push --force*": "ask",
+      "git push -f*": "ask",
+      "git reset --hard*": "ask",
+      "git clean -f*": "ask",
+      "git checkout -- *": "ask",
+      "git restore *": "ask",
+      "git diff*": "allow",
+      "git status*": "allow",
+      "git log*": "allow"
+    }
+  },
+  "default_agent": "general",
+  "agent": {
+    "general": {
+      "description": "Cost-conscious primary orchestrator for normal use and specialist handoffs",
+      "model": "opencode-go/glm-5.2",
+      "mode": "primary",
+      "variant": "medium",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "plan": "allow",
+          "explore": "allow",
+          "executor": "allow",
+          "build": "allow",
+          "simplifier": "allow",
+          "reviewer": "allow",
+          "expert-reviewer": "allow"
+        }
+      },
+      "prompt": "{file:./prompts/general-guideline.md}\n\n{file:./prompts/tool-routing.md}"
+    },
+    "build": {
+      "description": "Implementation agent reserved for non-trivial coding",
+      "model": "opencode-go/glm-5.2",
+      "mode": "subagent",
+      "variant": "medium",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "explore": "allow",
+          "executor": "allow",
+          "reviewer": "allow"
+        }
+      },
+      "prompt": "{file:./prompts/coding-guideline.md}\n\n{file:./prompts/tool-routing.md}"
+    },
+    "plan": {
+      "description": "Research and structured implementation planning subagent",
+      "model": "opencode-go/kimi-k3",
+      "mode": "subagent",
+      "variant": "medium",
+      "permission": {
+        "edit": {
+          "*": "deny",
+          ".work/*": "allow",
+          "~/agent-vault": "allow",
+          "~/agent-vault/*": "allow"
+        },
+        "task": {
+          "*": "deny",
+          "explore": "allow",
+          "executor": "allow"
+        }
+      },
+      "prompt": "{file:~/.agents/skills/planning/SKILL.md}"
+    },
+    "explore": {
+      "description": "Semantic codebase exploration",
+      "model": "opencode-go/deepseek-v4-pro",
+      "mode": "subagent",
+      "hidden": false,
+      "permission": {
+        "edit": "deny",
+        "task": "deny"
+      },
+      "prompt": "{file:./prompts/explore-guideline.md}\n\n{file:./prompts/tool-routing.md}"
+    },
+    "executor": {
+      "description": "Default execution subagent for bash commands, tests, builds, and validation",
+      "model": "opencode-go/deepseek-v4-pro",
+      "mode": "subagent",
+      "hidden": false,
+      "steps": 4,
+      "permission": {
+        "edit": "deny",
+        "task": "deny"
+      },
+      "prompt": "{file:./prompts/executor-guideline.md}"
+    },
+    "simplifier": {
+      "description": "Review changed code for reuse, quality, and efficiency, then fix worthwhile issues",
+      "model": "opencode-go/kimi-k3",
+      "variant": "medium",
+      "mode": "subagent",
+      "hidden": false,
+      "permission": {
+        "task": {
+          "*": "deny",
+          "executor": "allow"
+        }
+      },
+      "prompt": "{file:~/.agents/skills/simplify/SKILL.md}"
+    },
+    "reviewer": {
+      "description": "Automated risk-adaptive multi-pass code review agent",
+      "model": "opencode-go/kimi-k3",
+      "variant": "xhigh",
+      "mode": "subagent",
+      "hidden": false,
+      "permission": {
+        "edit": {
+          "*": "deny",
+          ".work/*": "allow",
+          "~/agent-vault": "allow",
+          "~/agent-vault/*": "allow"
+        },
+        "task": "deny"
+      },
+      "prompt": "{file:~/.agents/skills/code-review/SKILL.md}"
+    },
+    "expert-reviewer": {
+      "description": "In-depth final review with premium model",
+      "model": "opencode-go/kimi-k3",
+      "variant": "high",
+      "mode": "subagent",
+      "hidden": false,
+      "permission": {
+        "edit": {
+          "*": "deny",
+          ".work/*": "allow",
+          "~/agent-vault": "allow",
+          "~/agent-vault/*": "allow"
+        },
+        "task": {
+          "*": "deny",
+          "executor": "allow"
+        }
+      },
+      "prompt": "{file:./prompts/expert-reviewer-guideline.md}"
+    },
+    "java-modernizer": {
+      "description": "Modernizes Java projects",
+      "mode": "subagent"
+    }
+  }
 }
