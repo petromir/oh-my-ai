@@ -8,7 +8,7 @@ This document compiles the best practices for writing efficient, secure, and mai
 *   **Use Multi-stage Builds:** Split your Dockerfile instructions into distinct stages to ensure that the resulting output only contains the files needed to run the application. This reduces image size and can speed up builds by executing stages in parallel.
 *   **Decouple Applications (Single Concern):** Each container should have only one concern. Limiting each container to one process is a good rule of thumb, though not a hard rule (e.g., init processes).
 *   **Don't Install Unnecessary Packages:** Avoid "nice-to-have" packages to reduce complexity, file size, and build times.
-*   **Minimize Layers:** Combine related commands (especially `RUN` instructions) to reduce the number of layers.
+*   **Minimize Layers:** Combine related commands (especially `RUN` instructions) to reduce the number of layers. This isn't just about *related* commands: static-analysis tools flag **any** two `RUN` instructions that have nothing but comments between them, even if they were added at different times for unrelated reasons (e.g., installing a package in one `RUN`, then creating a user in a separate `RUN` added later) — merge them into a single `RUN ... && ...`, or deliberately separate them with a non-`RUN` instruction (`COPY`, `ARG`, `ENV`, `USER`) if you want them to stay distinct layers.
 *   **Sort Multi-line Arguments:** Sort arguments (like package lists) alphanumerically to avoid duplicates and improve readability/PR reviews.
 
 ## 2. Base Image Strategy
@@ -43,6 +43,9 @@ LABEL com.example.version="0.0.1-beta" \
 
 ### RUN
 *   **Chain Commands:** Use `&&` to combine commands to reduce layers.
+*   **Avoid Consecutive RUNs:** Two `RUN` instructions with nothing but comments between them will be flagged by 
+    static analysis tools ("reduce the amount of consecutive RUN instructions") regardless of whether the commands are 
+    logically related — if a later change adds a new `RUN` right after an existing one, fold it into that `RUN` with `&&` instead.
 *   **Clean Up Immediately:** Remove temporary files in the same `RUN` layer (e.g., `rm -rf /var/lib/apt/lists/*`).
 *   **Pipes:** Use `set -o pipefail` to ensure that a failure in any part of a command pipe causes the build to fail.
 ```dockerfile
@@ -81,6 +84,11 @@ CMD ["--help"]
 RUN --mount=type=bind,source=requirements.txt,target=/tmp/requirements.txt \
     pip install --requirement /tmp/requirements.txt
 ```
+*   **Permissions for Non-Root Consumers:** If a script or binary will later be executed by a non-root `USER` (see below), don't assume the source file's mode in the build context is sufficient — use `COPY --chmod=755 ...` to guarantee it. This matters especially for shebang scripts (`#!/usr/bin/env bash`): the kernel needs **read**, not just execute, permission to load the interpreter, so a script that is merely execute-only for "other" (e.g. mode `711`, common when a repo's scripts are only meant to be run by their owner) will fail with a permission error for any user that isn't the file's owner:
+```dockerfile
+COPY --chmod=755 scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY --from=some-tool-image --chmod=755 /usr/bin/some-tool /usr/local/bin/some-tool
+```
 
 ### USER
 *   **Run as Non-Root:** Always change to a non-root user.
@@ -92,6 +100,14 @@ USER myuser
 *   **UID Selection:** Use a static UID/GID above 10,000 to avoid overlapping with privileged host users.
 *   **Dynamic UIDs:** Be aware that some environments (like OpenShift) run containers with random UIDs. Ensure your application can handle this by making necessary resources world-readable and writing temporary data to `/tmp`.
 *   **Permissions:** Ensure executables are owned by root and not writable by the application user.
+*   **Give the User a Writable `$HOME` if It Needs One:** A system account created with `-r`/`--no-create-home` has no home directory. That's fine if nothing running as that user writes to `$HOME` — but plenty of ordinary CLI tools do (package manager clients, cloud/VCS CLIs, credential helpers, anything that persists a local config or cache file under `~/.config`, `~/.cache`, or similar). If your entrypoint or build-time steps invoke such a tool as the non-root user, use `--create-home` instead and set `ENV HOME=/home/<user>` explicitly, or point the tool's config path at a scratch directory under `/tmp` instead. The failure mode is easy to misdiagnose: the tool silently fails to persist its config on every invocation, which often masquerades as a completely unrelated timeout/readiness error in whatever is waiting on that tool, rather than an obvious permissions error.
+```dockerfile
+RUN groupadd --gid 10001 appuser \
+ && useradd --uid 10001 --gid appuser --create-home --shell /bin/false appuser
+ENV HOME=/home/appuser
+USER appuser
+```
+*   **Verify the Login Shell Actually Exists:** `useradd --shell <path>` only **warns** (it does not fail the build) if `<path>` doesn't exist in the base image — this is easy to miss in build logs. Minimal/slim base images frequently lack conventional paths like `/usr/sbin/nologin` or `/sbin/nologin`. Confirm the shell binary is actually present first (e.g. `RUN ls /usr/sbin/nologin || echo missing`, or check the base image's docs/filesystem), and fall back to a path you've confirmed exists (`/bin/false`, `/bin/sh`) if not.
 
 ### WORKDIR
 *   **Absolute Paths:** Always use absolute paths (e.g., `WORKDIR /app`).
