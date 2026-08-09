@@ -2,7 +2,7 @@
 
 This directory contains specialized configurations and custom tools for the `opencode` CLI.
 
-- `opencode.json` - Main configuration (models, tools, permissions, MCP servers).
+- `opencode.jsonc` - Main configuration (models, tools, permissions, MCP servers).
 - `tui.json` - TUI-specific settings (themes, keybinds, scroll behavior).
 - `skills/` - Custom agent skills. Each skill is a folder containing a `SKILL.md` file with YAML frontmatter.
 - `agents/` - Custom agents for specialized tasks.
@@ -10,7 +10,7 @@ This directory contains specialized configurations and custom tools for the `ope
 
 ## Configuration
 
-Big amount of `opencode.json` content was inspired by https://github.com/hossainemruz/dotfiles/blob/main/dot_config/opencode/opencode.json
+Big amount of `opencode.jsonc` content was inspired by https://github.com/hossainemruz/dotfiles/blob/main/dot_config/opencode/opencode.json
 
 Run the following command to create the agent folder
 ```bash

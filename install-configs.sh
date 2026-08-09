@@ -12,12 +12,13 @@ REPO_ROOT="${SCRIPT_DIR}"
 readonly REPO_ROOT
 
 # Define source and target base directories
-readonly SOURCE_DIR="${REPO_ROOT}/common/skills"
+readonly SOURCE_DIR="${REPO_ROOT}/common/.agents/skills"
 readonly OPENCODE_SOURCE="${REPO_ROOT}/opencode/.opencode"
 readonly GEMINI_TARGET="${HOME}/.gemini/skills"
 readonly COPILOT_TARGET="${HOME}/.copilot/skills"
 readonly CLAUDE_TARGET="${HOME}/.claude/skills"
-readonly OPENCODE_TARGET="${HOME}/.opencode"
+readonly OPENCODE_TARGET="${HOME}/.config/opencode"
+readonly AGENTS_TARGET="${HOME}/.agents/skills"
 
 FORCE=false
 ASSISTANT="all"
@@ -32,7 +33,7 @@ trap finish EXIT ERR
 usage() {
   printf "Usage: %s [-f] [-a assistant]\n" "${0}"
   printf "  -f: Force override existing skills\n"
-  printf "  -a: Specify assistant (gemini, copilot, claude, opencode, all). Default: all\n"
+  printf "  -a: Specify assistant (gemini, copilot, claude, opencode, agents, all). Default: all\n"
 }
 
 copy_if_needed() {
@@ -115,6 +116,12 @@ install_skill() {
   if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"opencode"* ]]; then
     mkdir -p -- "${OPENCODE_TARGET}/skills"
     copy_if_needed "${skill_path}" "${OPENCODE_TARGET}/skills/${skill_name}" "true"
+  fi
+
+  # .agents install
+  if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"agents"* ]]; then
+    mkdir -p -- "${AGENTS_TARGET}"
+    copy_if_needed "${skill_path}" "${AGENTS_TARGET}/${skill_name}" "true"
   fi
 }
 
