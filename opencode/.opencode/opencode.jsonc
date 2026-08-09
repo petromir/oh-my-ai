@@ -33,15 +33,6 @@
       "command": [
         "fff-mcp"
       ]
-    },
-    "ast-grep": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "--from",
-        "git+https://github.com/ast-grep/ast-grep-mcp@732c339c3812a44e9111e6c3aefec64894acd58f",
-        "ast-grep-server"
-      ]
     }
   },
   "permission": {
