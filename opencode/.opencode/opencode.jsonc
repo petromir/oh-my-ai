@@ -39,7 +39,8 @@
     "external_directory": {
       "/tmp/*": "allow",
       "~/agent-vault": "allow",
-      "~/agent-vault/*": "allow"
+      "~/agent-vault/*": "allow",
+      "~/.m2": "allow"
     },
     "read": {
       "~/.ssh/*": "deny",
