@@ -14,11 +14,15 @@ readonly REPO_ROOT
 # Define source and target base directories
 readonly SOURCE_DIR="${REPO_ROOT}/common/.agents/skills"
 readonly OPENCODE_SOURCE="${REPO_ROOT}/opencode/.opencode"
+readonly PI_SOURCE="${REPO_ROOT}/pi/.pi/agent"
 readonly GEMINI_TARGET="${HOME}/.gemini/skills"
 readonly COPILOT_TARGET="${HOME}/.copilot/skills"
 readonly CLAUDE_TARGET="${HOME}/.claude/skills"
 readonly OPENCODE_TARGET="${HOME}/.config/opencode"
 readonly AGENTS_TARGET="${HOME}/.agents/skills"
+readonly PI_TARGET="${HOME}/.pi/agent"
+readonly OH_MY_PI_SOURCE="${REPO_ROOT}/oh-my-pi/.omp/agent"
+readonly OH_MY_PI_TARGET="${HOME}/.omp/agent"
 
 FORCE=false
 ASSISTANT="all"
@@ -33,7 +37,7 @@ trap finish EXIT ERR
 usage() {
   printf "Usage: %s [-f] [-a assistant]\n" "${0}"
   printf "  -f: Force override existing skills\n"
-  printf "  -a: Specify assistant (gemini, copilot, claude, opencode, agents, all). Default: all\n"
+  printf "  -a: Specify assistant (gemini, copilot, claude, opencode, pi, oh-my-pi, agents, all). Default: all\n"
 }
 
 copy_if_needed() {
@@ -87,6 +91,46 @@ install_opencode_configs() {
   done
 }
 
+install_pi_configs() {
+  if [[ ! -d "${PI_SOURCE}" ]]; then
+    printf "Pi source directory not found, skipping config installation.\n"
+    return
+  fi
+
+  printf "Installing Pi configurations...\n"
+  mkdir -p -- "${PI_TARGET}"
+
+  for item in "${PI_SOURCE}"/*; do
+    local item_name
+    item_name="$(basename "${item}")"
+    if [[ -d "${item}" ]]; then
+      copy_if_needed "${item}" "${PI_TARGET}/${item_name}" "true"
+    else
+      copy_if_needed "${item}" "${PI_TARGET}/${item_name}" "false"
+    fi
+  done
+}
+
+install_oh_my_pi_configs() {
+  if [[ ! -d "${OH_MY_PI_SOURCE}" ]]; then
+    printf "Oh-My-Pi source directory not found, skipping config installation.\n"
+    return
+  fi
+
+  printf "Installing Oh-My-Pi configurations...\n"
+  mkdir -p -- "${OH_MY_PI_TARGET}"
+
+  for item in "${OH_MY_PI_SOURCE}"/*; do
+    local item_name
+    item_name="$(basename "${item}")"
+    if [[ -d "${item}" ]]; then
+      copy_if_needed "${item}" "${OH_MY_PI_TARGET}/${item_name}" "true"
+    else
+      copy_if_needed "${item}" "${OH_MY_PI_TARGET}/${item_name}" "false"
+    fi
+  done
+}
+
 install_skill() {
   local skill_path="${1}"
   local skill_name
@@ -118,6 +162,18 @@ install_skill() {
     copy_if_needed "${skill_path}" "${OPENCODE_TARGET}/skills/${skill_name}" "true"
   fi
 
+  # Pi install (guard: "oh-my-pi" contains the "pi" substring)
+  if [[ "${ASSISTANT}" == "all" || ( "${ASSISTANT}" == *"pi"* && "${ASSISTANT}" != *"oh-my-pi"* ) ]]; then
+    mkdir -p -- "${PI_TARGET}/skills"
+    copy_if_needed "${skill_path}" "${PI_TARGET}/skills/${skill_name}" "true"
+  fi
+
+  # Oh-My-Pi install
+  if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"oh-my-pi"* ]]; then
+    mkdir -p -- "${OH_MY_PI_TARGET}/skills"
+    copy_if_needed "${skill_path}" "${OH_MY_PI_TARGET}/skills/${skill_name}" "true"
+  fi
+
   # .agents install
   if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"agents"* ]]; then
     mkdir -p -- "${AGENTS_TARGET}"
@@ -144,6 +200,16 @@ main() {
   # Install OpenCode configurations
   if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"opencode"* ]]; then
     install_opencode_configs
+  fi
+
+  # Install Pi configurations (guard: "oh-my-pi" contains the "pi" substring)
+  if [[ "${ASSISTANT}" == "all" || ( "${ASSISTANT}" == *"pi"* && "${ASSISTANT}" != *"oh-my-pi"* ) ]]; then
+    install_pi_configs
+  fi
+
+  # Install Oh-My-Pi configurations
+  if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"oh-my-pi"* ]]; then
+    install_oh_my_pi_configs
   fi
 
   # Loop through all skills in the common folder

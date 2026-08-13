@@ -20,7 +20,7 @@ By default, the script installs to **all** assistants and skips existing skills.
 #### Options
 
 - `-f`: Force override existing skills.
-- `-a <assistant>`: Specify target assistant (`gemini`, `copilot`, `claude`, `opencode`, `agents`, or `all`). You can also provide a comma-separated list.
+- `-a <assistant>`: Specify target assistant (`gemini`, `copilot`, `claude`, `opencode`, `pi`, `agents`, or `all`). You can also provide a comma-separated list.
 
 **Examples:**
 

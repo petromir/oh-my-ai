@@ -1,0 +1,67 @@
+setupVersion: 1
+theme: 
+  light: light-catppuccin
+  dark: dark-catppuccin
+statusLine: 
+  preset: nerd
+  separator: pipe
+  sessionAccent: true
+  transparent: false
+  compactThinkingLevel: false
+  showHookStatus: true
+tui: 
+  textSizing: false
+  tight: false
+display: 
+  shimmer: classic
+includeWorkspaceTree: false
+personality: pragmatic
+retry: 
+  usageAwareFallback: false
+advisor: 
+  enabled: false
+interruptMode: immediate
+tools: 
+  approvalMode: write
+completion: 
+  notify: "on"
+error: 
+  notify: "on"
+stt: 
+  enabled: true
+marketplace: 
+  autoUpdate: notify
+power: 
+  sleepPrevention: idle
+features: 
+  unexpectedStopDetection: false
+contextPromotion: 
+  enabled: false
+memory: 
+  backend: local
+autolearn: 
+  enabled: false
+  autoContinue: false
+edit: 
+  mode: hashline
+read: 
+  renderMarkdown: true
+  toolResultPreview: true
+lsp: 
+  formatOnWrite: false
+astGrep: 
+  enabled: true
+dev: 
+  autoqa: false
+task: 
+  enableEffort: false
+  enableLsp: true
+  isolation: 
+    commits: ai
+providers: 
+  webSearchOrder: 
+    - google
+    - duckduckgo
+    - public
+secrets: 
+  enabled: true
