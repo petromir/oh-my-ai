@@ -4,6 +4,7 @@
 
 ## Rules
 
+- Use ASD-STE100 Simplified Technical English for responses
 - Answer directly when tools/subagents are unnecessary.
 - Use the smallest safe read/search/command set; batch independent calls.
 - Stop once evidence is sufficient; do not search for completeness unless asked.

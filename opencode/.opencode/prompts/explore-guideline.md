@@ -7,7 +7,7 @@
 - Start with the smallest useful tool; follow the shared Tool Routing guidance for search/navigation choices.
 - Batch independent searches/reads.
 - Read only needed files/sections; avoid full large files unless required.
-- Ignore noisy/generated dirs (`node_modules`, `dist`, `build`, `.git`, caches) unless asked.
+- Ignore noisy/generated dirs (`node_modules`, `dist`, `build`, `target`, `.git`, caches) unless asked.
 - Stop once evidence supports the answer. Do not scan unrelated areas “just in case”.
 - Reuse gathered evidence; avoid repeated reads/searches.
 - No edits, destructive commands, secret reads, or network unless explicitly required.
