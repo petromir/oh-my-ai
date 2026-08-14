@@ -641,6 +641,116 @@
     },
     {
       "tool": "Bash",
+      "pattern": "git status*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git log*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git branch*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git remote*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git config user.*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git config --get*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "which *",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "javap *",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "unzip -l*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "xmllint --noout*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "xmllint --format*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "./mvnw clean test*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "./mvnw -q clean test*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "./mvnw clean compile*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "./mvnw clean test-compile*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "./mvnw -q clean test-compile*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "./mvnw dependency:tree*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "./mvnw -q dependency:tree*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "./mvnw -DskipTests dependency:tree*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "./mvnw -q -DskipTests dependency:tree*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "./mvnw dependency:build-classpath*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "mvn dependency:get*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
       "pattern": "docker ps*",
       "tier": "allow"
     },
