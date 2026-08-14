@@ -11,18 +11,7 @@ readonly SCRIPT_DIR
 REPO_ROOT="${SCRIPT_DIR}"
 readonly REPO_ROOT
 
-# Define source and target base directories
-readonly SOURCE_DIR="${REPO_ROOT}/common/.agents/skills"
-readonly OPENCODE_SOURCE="${REPO_ROOT}/opencode/.opencode"
-readonly PI_SOURCE="${REPO_ROOT}/pi/.pi/agent"
-readonly GEMINI_TARGET="${HOME}/.gemini/skills"
-readonly COPILOT_TARGET="${HOME}/.copilot/skills"
-readonly CLAUDE_TARGET="${HOME}/.claude/skills"
-readonly OPENCODE_TARGET="${HOME}/.config/opencode"
-readonly AGENTS_TARGET="${HOME}/.agents/skills"
-readonly PI_TARGET="${HOME}/.pi/agent"
-readonly OH_MY_PI_SOURCE="${REPO_ROOT}/oh-my-pi/.omp/agent"
-readonly OH_MY_PI_TARGET="${HOME}/.omp/agent"
+readonly SKILLS_SOURCE="${REPO_ROOT}/common/.agents/skills"
 
 FORCE=false
 ASSISTANT="all"
@@ -43,91 +32,60 @@ usage() {
 copy_if_needed() {
   local src="${1}"
   local dest="${2}"
-  local is_dir="${3:-false}"
 
-  if [[ "${FORCE}" == "true" ]]; then
-    if [[ "${is_dir}" == "true" ]]; then
-      if [[ -d "${dest}" ]]; then
-        rm -rf -- "${dest}"
-      fi
-      cp -Rf -- "${src}" "${dest}"
-      printf "Copied directory: %s\n" "${dest}"
-    else
-      cp -f -- "${src}" "${dest}"
-      printf "Copied file: %s\n" "${dest}"
+  if [[ "${FORCE}" != "true" && -e "${dest}" ]]; then
+    printf "Skipping existing: %s\n" "$(basename "${dest}")"
+    return 0
+  fi
+
+  if [[ -d "${src}" ]]; then
+    if [[ -d "${dest}" ]]; then
+      rm -rf -- "${dest}"
     fi
+    cp -Rf -- "${src}" "${dest}"
+    printf "Copied directory: %s\n" "${dest}"
   else
-    if [[ -e "${dest}" ]]; then
-      printf "Skipping existing: %s\n" "$(basename "${dest}")"
-    else
-      if [[ "${is_dir}" == "true" ]]; then
-        cp -Rf -- "${src}" "${dest}"
-        printf "Copied directory: %s\n" "${dest}"
-      else
-        cp -f -- "${src}" "${dest}"
-        printf "Copied file: %s\n" "${dest}"
-      fi
-    fi
+    cp -f -- "${src}" "${dest}"
+    printf "Copied file: %s\n" "${dest}"
   fi
 }
 
-install_opencode_configs() {
-  if [[ ! -d "${OPENCODE_SOURCE}" ]]; then
-    printf "OpenCode source directory not found, skipping config installation.\n"
-    return
+should_install_assistant() {
+  local key="${1}"
+  if [[ "${ASSISTANT}" == "all" ]]; then
+    return 0
   fi
 
-  printf "Installing OpenCode configurations...\n"
-  mkdir -p -- "${OPENCODE_TARGET}"
-
-  for item in "${OPENCODE_SOURCE}"/*; do
-    local item_name
-    item_name="$(basename "${item}")"
-    if [[ -d "${item}" ]]; then
-      copy_if_needed "${item}" "${OPENCODE_TARGET}/${item_name}" "true"
-    else
-      copy_if_needed "${item}" "${OPENCODE_TARGET}/${item_name}" "false"
+  # Guard against "oh-my-pi" matching "pi" when only "oh-my-pi" was requested
+  if [[ "${key}" == "pi" ]]; then
+    if [[ ",${ASSISTANT}," == *",oh-my-pi,"* && ",${ASSISTANT}," != *",pi,"* ]]; then
+      return 1
     fi
-  done
+  fi
+
+  if [[ ",${ASSISTANT}," == *",${key},"* || "${ASSISTANT}" == *"${key}"* ]]; then
+    return 0
+  fi
+  return 1
 }
 
-install_pi_configs() {
-  if [[ ! -d "${PI_SOURCE}" ]]; then
-    printf "Pi source directory not found, skipping config installation.\n"
-    return
+install_config_dir() {
+  local name="${1}"
+  local src_dir="${2}"
+  local target_dir="${3}"
+
+  if [[ ! -d "${src_dir}" ]]; then
+    printf "%s source directory not found, skipping config installation.\n" "${name}"
+    return 0
   fi
 
-  printf "Installing Pi configurations...\n"
-  mkdir -p -- "${PI_TARGET}"
+  printf "Installing %s configurations...\n" "${name}"
+  mkdir -p -- "${target_dir}"
 
-  for item in "${PI_SOURCE}"/*; do
-    local item_name
-    item_name="$(basename "${item}")"
-    if [[ -d "${item}" ]]; then
-      copy_if_needed "${item}" "${PI_TARGET}/${item_name}" "true"
-    else
-      copy_if_needed "${item}" "${PI_TARGET}/${item_name}" "false"
-    fi
-  done
-}
-
-install_oh_my_pi_configs() {
-  if [[ ! -d "${OH_MY_PI_SOURCE}" ]]; then
-    printf "Oh-My-Pi source directory not found, skipping config installation.\n"
-    return
-  fi
-
-  printf "Installing Oh-My-Pi configurations...\n"
-  mkdir -p -- "${OH_MY_PI_TARGET}"
-
-  for item in "${OH_MY_PI_SOURCE}"/*; do
-    local item_name
-    item_name="$(basename "${item}")"
-    if [[ -d "${item}" ]]; then
-      copy_if_needed "${item}" "${OH_MY_PI_TARGET}/${item_name}" "true"
-    else
-      copy_if_needed "${item}" "${OH_MY_PI_TARGET}/${item_name}" "false"
-    fi
+  local item
+  for item in "${src_dir}"/*; do
+    [[ -e "${item}" ]] || continue
+    copy_if_needed "${item}" "${target_dir}/$(basename "${item}")"
   done
 }
 
@@ -138,47 +96,24 @@ install_skill() {
 
   printf "Installing skill: %s\n" "${skill_name}"
 
-  # Gemini install
-  if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"gemini"* ]]; then
-    mkdir -p -- "${GEMINI_TARGET}"
-    copy_if_needed "${skill_path}" "${GEMINI_TARGET}/${skill_name}" "true"
-  fi
+  local -a skill_targets=(
+    "gemini:${HOME}/.gemini/skills"
+    "copilot:${HOME}/.copilot/skills"
+    "claude:${HOME}/.claude/skills"
+    "opencode:${HOME}/.config/opencode/skills"
+    "pi:${HOME}/.pi/agent/skills"
+    "oh-my-pi:${HOME}/.omp/agent/skills"
+    "agents:${HOME}/.agents/skills"
+  )
 
-  # Copilot install
-  if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"copilot"* ]]; then
-    mkdir -p -- "${COPILOT_TARGET}"
-    copy_if_needed "${skill_path}" "${COPILOT_TARGET}/${skill_name}" "true"
-  fi
-
-  # Claude install
-  if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"claude"* ]]; then
-    mkdir -p -- "${CLAUDE_TARGET}"
-    copy_if_needed "${skill_path}" "${CLAUDE_TARGET}/${skill_name}" "true"
-  fi
-
-  # OpenCode install
-  if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"opencode"* ]]; then
-    mkdir -p -- "${OPENCODE_TARGET}/skills"
-    copy_if_needed "${skill_path}" "${OPENCODE_TARGET}/skills/${skill_name}" "true"
-  fi
-
-  # Pi install (guard: "oh-my-pi" contains the "pi" substring)
-  if [[ "${ASSISTANT}" == "all" || ( "${ASSISTANT}" == *"pi"* && "${ASSISTANT}" != *"oh-my-pi"* ) ]]; then
-    mkdir -p -- "${PI_TARGET}/skills"
-    copy_if_needed "${skill_path}" "${PI_TARGET}/skills/${skill_name}" "true"
-  fi
-
-  # Oh-My-Pi install
-  if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"oh-my-pi"* ]]; then
-    mkdir -p -- "${OH_MY_PI_TARGET}/skills"
-    copy_if_needed "${skill_path}" "${OH_MY_PI_TARGET}/skills/${skill_name}" "true"
-  fi
-
-  # .agents install
-  if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"agents"* ]]; then
-    mkdir -p -- "${AGENTS_TARGET}"
-    copy_if_needed "${skill_path}" "${AGENTS_TARGET}/${skill_name}" "true"
-  fi
+  local target key dest
+  for target in "${skill_targets[@]}"; do
+    IFS=":" read -r key dest <<< "${target}"
+    if should_install_assistant "${key}"; then
+      mkdir -p -- "${dest}"
+      copy_if_needed "${skill_path}" "${dest}/${skill_name}"
+    fi
+  done
 }
 
 main() {
@@ -192,28 +127,30 @@ main() {
   done
   shift $((OPTIND - 1))
 
-  if [[ ! -d "${SOURCE_DIR}" ]]; then
-    printf "Error: Source directory %s not found.\n" "${SOURCE_DIR}" >&2
+  if [[ ! -d "${SKILLS_SOURCE}" ]]; then
+    printf "Error: Source directory %s not found.\n" "${SKILLS_SOURCE}" >&2
     exit 1
   fi
 
-  # Install OpenCode configurations
-  if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"opencode"* ]]; then
-    install_opencode_configs
-  fi
+  # Assistant configuration sources and targets: "key:Name:SourceDir:TargetDir"
+  local -a config_targets=(
+    "gemini:Gemini:${REPO_ROOT}/gemini/.gemini:${HOME}/.gemini"
+    "opencode:OpenCode:${REPO_ROOT}/opencode/.opencode:${HOME}/.config/opencode"
+    "pi:Pi:${REPO_ROOT}/pi/.pi/agent:${HOME}/.pi/agent"
+    "oh-my-pi:Oh-My-Pi:${REPO_ROOT}/oh-my-pi/.omp/agent:${HOME}/.omp/agent"
+  )
 
-  # Install Pi configurations (guard: "oh-my-pi" contains the "pi" substring)
-  if [[ "${ASSISTANT}" == "all" || ( "${ASSISTANT}" == *"pi"* && "${ASSISTANT}" != *"oh-my-pi"* ) ]]; then
-    install_pi_configs
-  fi
+  local cfg key name src dest
+  for cfg in "${config_targets[@]}"; do
+    IFS=":" read -r key name src dest <<< "${cfg}"
+    if should_install_assistant "${key}"; then
+      install_config_dir "${name}" "${src}" "${dest}"
+    fi
+  done
 
-  # Install Oh-My-Pi configurations
-  if [[ "${ASSISTANT}" == "all" || "${ASSISTANT}" == *"oh-my-pi"* ]]; then
-    install_oh_my_pi_configs
-  fi
-
-  # Loop through all skills in the common folder
-  for skill in "${SOURCE_DIR}"/*; do
+  # Loop through all skills in common directory
+  local skill
+  for skill in "${SKILLS_SOURCE}"/*; do
     if [[ -d "${skill}" ]]; then
       install_skill "${skill}"
     fi
