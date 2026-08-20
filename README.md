@@ -7,19 +7,25 @@ to go to the beach 🏖️
 
 To use these configurations, install them into your project or global config directories.
 
-### Installing Skills
+### Installing Configs & Skills
 
-To automatically install skills from the `configs/common/.agents/skills` folder to your assistant's configuration directories (OpenCode, Pi, Oh-My-Pi, etc.), run:
+Running `install-configs.sh` does two things in one pass:
+
+1. Copies each assistant's configuration directory from `configs/<assistant>` (e.g. `configs/gemini`, `configs/opencode`, `configs/pi`, `configs/oh-my-pi`) into that assistant's config directory under `$HOME` (`~/.gemini`, `~/.config/opencode`, `~/.pi/agent`, `~/.omp/agent`).
+2. Copies every shared skill from `configs/common/.agents/skills` into each assistant's `skills` directory (Gemini, Copilot, Claude, OpenCode, Pi, Oh-My-Pi, and generic `~/.agents/skills`).
 
 ```bash
 ./install-configs.sh
 ```
 
-By default, the script installs to **all** assistants and skips existing skills.
+By default, the script targets **all** assistants and skips existing files/directories.
+
+> **Note:** Config directories only exist for `gemini`, `opencode`, `pi`, and `oh-my-pi` — Copilot and Claude have no dedicated config folder and only receive shared skills. The Oh-My-Pi key is `oh-my-pi` (no `omp` alias).
 
 #### Options
 
-- `-f`: Force override existing skills.
+- `-f`: Force override existing configs/skills.
+- `-s`: Skip installing shared skills; only assistant configs are installed.
 - `-a <assistant>`: Specify target assistant (`opencode`, `pi`, `oh-my-pi`, `agents`, `gemini`, `copilot`, `claude`, or `all`). You can also provide a comma-separated list.
 
 **Examples:**
@@ -32,6 +38,37 @@ By default, the script installs to **all** assistants and skips existing skills.
 ```bash
 # Install for OpenCode and Pi, forcing override
 ./install-configs.sh -f -a opencode,pi
+```
+
+```bash
+# Install assistant configs only, skipping shared skills
+./install-configs.sh -s -a gemini
+```
+
+#### Removing Configs & Skills
+
+The install can be undone with the `remove` command. It only deletes the items this script would have installed (e.g. `configs/gemini/.gemini/antigravity-cli`, or a single shared skill directory) — it never wipes an entire `~/.gemini`, `skills`, or config directory, so anything else living alongside it is left untouched.
+
+```bash
+# Remove installed assistant configs
+./install-configs.sh remove configs
+
+# Remove installed shared skills
+./install-configs.sh remove skills
+```
+
+`-a <assistant>` scopes either command the same way it scopes installation. `-f` and `-s` do not apply to `remove`.
+
+**Examples:**
+
+```bash
+# Remove Pi's installed configs only
+./install-configs.sh remove configs -a pi
+```
+
+```bash
+# Remove shared skills from Gemini and OpenCode only
+./install-configs.sh remove skills -a gemini,opencode
 ```
 
 ### Setting Environment Variables

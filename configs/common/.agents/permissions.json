@@ -306,6 +306,11 @@
     },
     {
       "tool": "Bash",
+      "pattern": "cd *",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
       "pattern": "curl *",
       "tier": "ask"
     },
@@ -636,7 +641,27 @@
     },
     {
       "tool": "Bash",
+      "pattern": "grep*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "rg*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "nl*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
       "pattern": "git diff*",
+      "tier": "allow"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git show*",
       "tier": "allow"
     },
     {

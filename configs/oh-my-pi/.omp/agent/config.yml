@@ -23,367 +23,210 @@ advisor:
 interruptMode: immediate
 tools:
   approvalMode: write
-  approval:
-    - tool: Bash
-      pattern: wc *
-      tier: allow
-    - tool: Read
-      pattern: "~/.ssh/*"
-      tier: deny
-    - tool: Read
-      pattern: "~/.gnupg/*"
-      tier: deny
-    - tool: Read
-      pattern: "~/.aws/*"
-      tier: deny
-    - tool: Read
-      pattern: "~/.azure/*"
-      tier: deny
-    - tool: Read
-      pattern: "~/.kube/*"
-      tier: deny
-    - tool: Read
-      pattern: "~/.docker/*"
-      tier: deny
-    - tool: Read
-      pattern: "~/.config/gcloud/*"
-      tier: deny
-    - tool: Read
-      pattern: ".env*"
-      tier: ask
-    - tool: Read
-      pattern: "*/.env*"
-      tier: ask
-    - tool: Read
-      pattern: "*.pem"
-      tier: deny
-    - tool: Read
-      pattern: "*.key"
-      tier: deny
-    - tool: Read
-      pattern: "*.p12"
-      tier: deny
-    - tool: Read
-      pattern: "*.jks"
-      tier: deny
-    - tool: Read
-      pattern: "*credentials*"
-      tier: deny
-    - tool: Edit
-      pattern: "~/.aws/*"
-      tier: deny
-    - tool: Edit
-      pattern: "~/.azure/*"
-      tier: deny
-    - tool: Edit
-      pattern: "~/.ssh/*"
-      tier: deny
-    - tool: Edit
-      pattern: "~/.gnupg/*"
-      tier: deny
-    - tool: Edit
-      pattern: "~/.kube/*"
-      tier: deny
-    - tool: Edit
-      pattern: "~/.docker/*"
-      tier: deny
-    - tool: Edit
-      pattern: "~/.config/gcloud/*"
-      tier: deny
-    - tool: Edit
-      pattern: ".env*"
-      tier: ask
-    - tool: Edit
-      pattern: "*/.env*"
-      tier: ask
-    - tool: Edit
-      pattern: "*.pem"
-      tier: deny
-    - tool: Edit
-      pattern: "*.key"
-      tier: deny
-    - tool: Edit
-      pattern: "*.p12"
-      tier: deny
-    - tool: Edit
-      pattern: "*.jks"
-      tier: deny
-    - tool: Edit
-      pattern: "*credentials*"
-      tier: deny
-    - tool: Bash
-      pattern: "*.pem*"
-      tier: deny
-    - tool: Bash
-      pattern: "*.key*"
-      tier: deny
-    - tool: Bash
-      pattern: "*.p12*"
-      tier: deny
-    - tool: Bash
-      pattern: "*.jks*"
-      tier: deny
-    - tool: Bash
-      pattern: "*/.ssh/*"
-      tier: deny
-    - tool: Bash
-      pattern: "*/.gnupg/*"
-      tier: deny
-    - tool: Bash
-      pattern: "*/.aws/*"
-      tier: deny
-    - tool: Bash
-      pattern: "*/.azure/*"
-      tier: deny
-    - tool: Bash
-      pattern: "*/.kube/*"
-      tier: deny
-    - tool: Bash
-      pattern: "*/.docker/*"
-      tier: deny
-    - tool: Bash
-      pattern: "*/.config/gcloud/*"
-      tier: deny
-    - tool: Bash
-      pattern: "*.env*"
-      tier: ask
-    - tool: Bash
-      pattern: "rm *"
-      tier: ask
-    - tool: Bash
-      pattern: "sudo rm *"
-      tier: ask
-    - tool: Bash
-      pattern: "chmod -R *"
-      tier: ask
-    - tool: Bash
-      pattern: "chmod 000 *"
-      tier: ask
-    - tool: Bash
-      pattern: "chmod 0 *"
-      tier: ask
-    - tool: Bash
-      pattern: "chown *"
-      tier: ask
-    - tool: Bash
-      pattern: "sudo chown *"
-      tier: ask
-    - tool: Bash
-      pattern: "dd *"
-      tier: ask
-    - tool: Bash
-      pattern: "mkfs*"
-      tier: ask
-    - tool: Bash
-      pattern: "shutdown*"
-      tier: ask
-    - tool: Bash
-      pattern: "reboot*"
-      tier: ask
-    - tool: Bash
-      pattern: "halt*"
-      tier: ask
-    - tool: Bash
-      pattern: "poweroff*"
-      tier: ask
-    - tool: Bash
-      pattern: "init 0*"
-      tier: ask
-    - tool: Bash
-      pattern: "init 6*"
-      tier: ask
-    - tool: Bash
-      pattern: "killall *"
-      tier: ask
-    - tool: Bash
-      pattern: "pkill *"
-      tier: ask
-    - tool: Bash
-      pattern: "kill -9 *"
-      tier: ask
-    - tool: Bash
-      pattern: "git push --force*"
-      tier: ask
-    - tool: Bash
-      pattern: "git push -f*"
-      tier: ask
-    - tool: Bash
-      pattern: "git reset --hard*"
-      tier: ask
-    - tool: Bash
-      pattern: "git clean -f*"
-      tier: ask
-    - tool: Bash
-      pattern: "git checkout -- *"
-      tier: ask
-    - tool: Bash
-      pattern: "git restore *"
-      tier: ask
-    - tool: Bash
-      pattern: "git diff*"
-      tier: allow
-    - tool: Bash
-      pattern: "git status*"
-      tier: allow
-    - tool: Bash
-      pattern: "git log*"
-      tier: allow
-    - tool: Bash
-      pattern: "git branch*"
-      tier: allow
-    - tool: Bash
-      pattern: "git remote*"
-      tier: allow
-    - tool: Bash
-      pattern: "git config user.*"
-      tier: allow
-    - tool: Bash
-      pattern: "git config --get*"
-      tier: allow
-    - tool: Bash
-      pattern: "wget *"
-      tier: ask
-    - tool: Bash
-      pattern: "ssh *"
-      tier: ask
-    - tool: Bash
-      pattern: "scp *"
-      tier: ask
-    - tool: Bash
-      pattern: "brew install *"
-      tier: ask
-    - tool: Bash
-      pattern: "npm publish *"
-      tier: ask
-    - tool: Bash
-      pattern: "curl * -X*"
-      tier: ask
-    - tool: Bash
-      pattern: "curl * --request*"
-      tier: ask
-    - tool: Bash
-      pattern: "curl * -d*"
-      tier: ask
-    - tool: Bash
-      pattern: "curl * --data*"
-      tier: ask
-    - tool: Bash
-      pattern: "curl * -F*"
-      tier: ask
-    - tool: Bash
-      pattern: "curl * --form*"
-      tier: ask
-    - tool: Bash
-      pattern: "curl * -T*"
-      tier: ask
-    - tool: Bash
-      pattern: "curl * --upload-file*"
-      tier: ask
-    - tool: Bash
-      pattern: "curl * --json*"
-      tier: ask
-    - tool: Bash
-      pattern: "curl * -o*"
-      tier: ask
-    - tool: Bash
-      pattern: "curl * --output*"
-      tier: ask
-    - tool: Bash
-      pattern: "curl * -O*"
-      tier: ask
-    - tool: Bash
-      pattern: "curl * --remote-name*"
-      tier: ask
-    - tool: Bash
-      pattern: "curl *"
-      tier: allow
-    - tool: Bash
-      pattern: "jq *>*"
-      tier: ask
-    - tool: Bash
-      pattern: "jq *"
-      tier: allow
-    - tool: Bash
-      pattern: "mkdir*"
-      tier: allow
-    - tool: Bash
-      pattern: "ls*"
-      tier: allow
-    - tool: Bash
-      pattern: "cat*"
-      tier: allow
-    - tool: Bash
-      pattern: "grep*"
-      tier: allow
-    - tool: Bash
-      pattern: "find*"
-      tier: allow
-    - tool: Bash
-      pattern: "sort*"
-      tier: allow
-    - tool: Bash
-      pattern: "head*"
-      tier: allow
-    - tool: Bash
-      pattern: "tail*"
-      tier: allow
-    - tool: Bash
-      pattern: "bash -n*"
-      tier: allow
-    - tool: Bash
-      pattern: "shellcheck*"
-      tier: allow
-    - tool: Bash
-      pattern: "tree*"
-      tier: allow
-    - tool: Bash
-      pattern: "which *"
-      tier: allow
-    - tool: Bash
-      pattern: "javap *"
-      tier: allow
-    - tool: Bash
-      pattern: "unzip -l*"
-      tier: allow
-    - tool: Bash
-      pattern: "xmllint --noout*"
-      tier: allow
-    - tool: Bash
-      pattern: "xmllint --format*"
-      tier: allow
-    - tool: Bash
-      pattern: "./mvnw clean test*"
-      tier: allow
-    - tool: Bash
-      pattern: "./mvnw -q clean test*"
-      tier: allow
-    - tool: Bash
-      pattern: "./mvnw clean compile*"
-      tier: allow
-    - tool: Bash
-      pattern: "./mvnw clean test-compile*"
-      tier: allow
-    - tool: Bash
-      pattern: "./mvnw -q clean test-compile*"
-      tier: allow
-    - tool: Bash
-      pattern: "./mvnw dependency:tree*"
-      tier: allow
-    - tool: Bash
-      pattern: "./mvnw -q dependency:tree*"
-      tier: allow
-    - tool: Bash
-      pattern: "./mvnw -DskipTests dependency:tree*"
-      tier: allow
-    - tool: Bash
-      pattern: "./mvnw -q -DskipTests dependency:tree*"
-      tier: allow
-    - tool: Bash
-      pattern: "./mvnw dependency:build-classpath*"
-      tier: allow
-    - tool: Bash
-      pattern: "mvn dependency:get*"
-      tier: allow
+bash: 
+  patterns: 
+    - match: "wc *"
+      approval: allow
+    - match: "cd *"
+      approval: allow
+    - match: "echo * > *"
+      approval: prompt
+    - match: "echo * >> *"
+      approval: prompt
+    - match: "echo * | sh*"
+      approval: prompt
+    - match: "echo * | bash*"
+      approval: prompt
+    - match: "echo *"
+      approval: allow
+    - match: "*.pem*"
+      approval: deny
+    - match: "*.key*"
+      approval: deny
+    - match: "*.p12*"
+      approval: deny
+    - match: "*.jks*"
+      approval: deny
+    - match: "*/.ssh/*"
+      approval: deny
+    - match: "*/.gnupg/*"
+      approval: deny
+    - match: "*/.aws/*"
+      approval: deny
+    - match: "*/.azure/*"
+      approval: deny
+    - match: "*/.kube/*"
+      approval: deny
+    - match: "*/.docker/*"
+      approval: deny
+    - match: "*/.config/gcloud/*"
+      approval: deny
+    - match: "*.env*"
+      approval: prompt
+    - match: "rm *"
+      approval: prompt
+    - match: "sudo rm *"
+      approval: prompt
+    - match: "chmod -R *"
+      approval: prompt
+    - match: "chmod 000 *"
+      approval: prompt
+    - match: "chmod 0 *"
+      approval: prompt
+    - match: "chown *"
+      approval: prompt
+    - match: "sudo chown *"
+      approval: prompt
+    - match: "dd *"
+      approval: prompt
+    - match: "mkfs*"
+      approval: prompt
+    - match: "shutdown*"
+      approval: prompt
+    - match: "reboot*"
+      approval: prompt
+    - match: "halt*"
+      approval: prompt
+    - match: "poweroff*"
+      approval: prompt
+    - match: "init 0*"
+      approval: prompt
+    - match: "init 6*"
+      approval: prompt
+    - match: "killall *"
+      approval: prompt
+    - match: "pkill *"
+      approval: prompt
+    - match: "kill -9 *"
+      approval: prompt
+    - match: "git push --force*"
+      approval: prompt
+    - match: "git push -f*"
+      approval: prompt
+    - match: "git reset --hard*"
+      approval: prompt
+    - match: "git clean -f*"
+      approval: prompt
+    - match: "git checkout -- *"
+      approval: prompt
+    - match: "git restore *"
+      approval: prompt
+    - match: "git diff*"
+      approval: allow
+    - match: "git status*"
+      approval: allow
+    - match: "git log*"
+      approval: allow
+    - match: "git show*"
+      approval: allow
+    - match: "git branch*"
+      approval: allow
+    - match: "git remote*"
+      approval: allow
+    - match: "git config user.*"
+      approval: allow
+    - match: "git config --get*"
+      approval: allow
+    - match: "wget *"
+      approval: prompt
+    - match: "ssh *"
+      approval: prompt
+    - match: "scp *"
+      approval: prompt
+    - match: "brew install *"
+      approval: prompt
+    - match: "npm publish *"
+      approval: prompt
+    - match: "curl * -X*"
+      approval: prompt
+    - match: "curl * --request*"
+      approval: prompt
+    - match: "curl * -d*"
+      approval: prompt
+    - match: "curl * --data*"
+      approval: prompt
+    - match: "curl * -F*"
+      approval: prompt
+    - match: "curl * --form*"
+      approval: prompt
+    - match: "curl * -T*"
+      approval: prompt
+    - match: "curl * --upload-file*"
+      approval: prompt
+    - match: "curl * --json*"
+      approval: prompt
+    - match: "curl * -o*"
+      approval: prompt
+    - match: "curl * --output*"
+      approval: prompt
+    - match: "curl * -O*"
+      approval: prompt
+    - match: "curl * --remote-name*"
+      approval: prompt
+    - match: "curl *"
+      approval: allow
+    - match: "jq *>*"
+      approval: prompt
+    - match: "jq *"
+      approval: allow
+    - match: "mkdir*"
+      approval: allow
+    - match: "ls*"
+      approval: allow
+    - match: "cat*"
+      approval: allow
+    - match: "grep*"
+      approval: allow
+    - match: "rg*"
+      approval: allow
+    - match: "nl*"
+      approval: allow
+    - match: "find*"
+      approval: allow
+    - match: "sort*"
+      approval: allow
+    - match: "head*"
+      approval: allow
+    - match: "tail*"
+      approval: allow
+    - match: "bash -n*"
+      approval: allow
+    - match: "shellcheck*"
+      approval: allow
+    - match: "tree*"
+      approval: allow
+    - match: "which *"
+      approval: allow
+    - match: "javap *"
+      approval: allow
+    - match: "unzip -l*"
+      approval: allow
+    - match: "xmllint --noout*"
+      approval: allow
+    - match: "xmllint --format*"
+      approval: allow
+    - match: "./mvnw clean test*"
+      approval: allow
+    - match: "./mvnw -q clean test*"
+      approval: allow
+    - match: "./mvnw clean compile*"
+      approval: allow
+    - match: "./mvnw clean test-compile*"
+      approval: allow
+    - match: "./mvnw -q clean test-compile*"
+      approval: allow
+    - match: "./mvnw dependency:tree*"
+      approval: allow
+    - match: "./mvnw -q dependency:tree*"
+      approval: allow
+    - match: "./mvnw -DskipTests dependency:tree*"
+      approval: allow
+    - match: "./mvnw -q -DskipTests dependency:tree*"
+      approval: allow
+    - match: "./mvnw dependency:build-classpath*"
+      approval: allow
+    - match: "mvn dependency:get*"
+      approval: allow
 completion: 
   notify: "on"
 error: 
