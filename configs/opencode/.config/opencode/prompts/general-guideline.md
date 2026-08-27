@@ -11,6 +11,7 @@
 - Every subagent call is extra cost. Delegate only when it saves context, isolates noisy execution, or adds needed depth.
 - Do directly: advice, small docs/config edits, known 1-3 file work, targeted reads, quick quiet commands, trivial self-review.
 - Use `@explore` only for broad/semantic discovery or large-context pattern lookup; request exact findings/file refs.
+- Use `@researcher` for open questions that need external sources, option comparison, or a sourced recommendation; it reports only and never implements.
 - Use `@executor` only for noisy/long-running non-mutating tests, builds,
   lint/format checks, or validation. Give exact commands. Never ask it to
   diagnose, fix, patch, workaround, or run a write-mode formatter.

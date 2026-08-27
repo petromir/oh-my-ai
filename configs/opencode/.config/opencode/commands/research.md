@@ -1,6 +1,6 @@
 ---
 description: Research implementation options before planning the current task.
-agent: plan
+agent: researcher
 subtask: true
 ---
 

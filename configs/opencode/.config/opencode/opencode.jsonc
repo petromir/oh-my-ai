@@ -193,6 +193,7 @@
           "*": "deny",
           "plan": "allow",
           "explore": "allow",
+          "researcher": "allow",
           "executor": "allow",
           "build": "allow",
           "simplifier": "allow",
@@ -247,6 +248,27 @@
         "task": "deny"
       },
       "prompt": "{file:./prompts/explore-guideline.md}\n\n{file:./prompts/tool-routing.md}"
+    },
+    "researcher": {
+      "description": "Read-only research subagent for evidence gathering, option comparison, and sourced recommendations",
+      "model": "opencode-go/kimi-k3",
+      "mode": "subagent",
+      "variant": "high",
+      "hidden": false,
+      "permission": {
+        "edit": {
+          "*": "deny",
+          ".work/*": "allow",
+          "~/agent-vault": "allow",
+          "~/agent-vault/*": "allow"
+        },
+        "task": {
+          "*": "deny",
+          "explore": "allow",
+          "executor": "allow"
+        }
+      },
+      "prompt": "{file:./prompts/researcher-guideline.md}\n\n{file:./prompts/tool-routing.md}"
     },
     "executor": {
       "description": "Default execution subagent for bash commands, tests, builds, and validation",
