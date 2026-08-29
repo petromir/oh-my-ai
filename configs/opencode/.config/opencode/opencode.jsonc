@@ -19,6 +19,16 @@
       "options": {
         "setCacheKey": true
       }
+    },
+    "cline-pass": {
+      "options": {
+        "setCacheKey": true
+      }
+    },
+    "google": {
+      "options": {
+        "setCacheKey": true
+      }
     }
   },
   "model": "opencode-go/glm-5.2",
@@ -201,7 +211,7 @@
           "expert-reviewer": "allow"
         }
       },
-      "prompt": "{file:./prompts/general-guideline.md}\n\n{file:./prompts/tool-routing.md}"
+      "prompt": "{file:./prompts/general-guideline.md}\n\n{file:./prompts/tool-routing.md}\n\n{file:./prompts/hard-guardrails.md}"
     },
     "build": {
       "description": "Implementation agent reserved for non-trivial coding",
@@ -272,9 +282,10 @@
     },
     "executor": {
       "description": "Default execution subagent for bash commands, tests, builds, and validation",
-      "model": "opencode-go/deepseek-v4-pro",
+      "model": "google/gemini-3.7-flash",
       "mode": "subagent",
       "hidden": false,
+      "variant": "high",
       "steps": 4,
       "permission": {
         "edit": "deny",

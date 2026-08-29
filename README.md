@@ -1,6 +1,6 @@
 # Oh my AI
 
-Script, skills, agents and everything necessary to make AI work better for us, so we can finally have more time 
+Scripts, skills, agents, and everything necessary to make AI work better for us, so we can finally have more time   
 to go to the beach 🏖️ 
 
 ## Usage
@@ -45,7 +45,7 @@ By default, the script targets **all** assistants and skips existing files/direc
 ./install-configs.sh -s -a gemini
 ```
 
-#### Removing Configs & Skills
+#### Removing Configs &amp; Skills
 
 The install can be undone with the `remove` command. It only deletes the items this script would have installed (e.g. `configs/gemini/.gemini/antigravity-cli`, or a single shared skill directory) — it never wipes an entire `~/.gemini`, `skills`, or config directory, so anything else living alongside it is left untouched.
 
@@ -107,9 +107,11 @@ existing definitions.
 
 The script comes with the following environment variables already configured:
 
+
 | Variable                           | Value | Description                              |
-|------------------------------------|-------|------------------------------------------|
+| ---------------------------------- | ----- | ---------------------------------------- |
 | `OPENCODE_DISABLE_EXTERNAL_SKILLS` | `1`   | Disables external skills in OpenCode CLI |
+
 
 These variables are applied to all shell configuration files by default.
 
@@ -118,10 +120,15 @@ These variables are applied to all shell configuration files by default.
 Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for simple rules and how to get started.
 
 ## TODO
-- Add testing scripts for skills. Use `promptfoo` or https://github.com/mgechev/skillgrade
+
+- Add testing scripts for skills. Use `promptfoo` or [https://github.com/mgechev/skillgrade](https://github.com/mgechev/skillgrade)
 
 ## Support my work
 
-<a href="https://ko-fi.com/petromirdzhunev" target="_blank"><img src="https://raw.githubusercontent.com/petromir/petromir/refs/heads/master/assets/kofi-button.svg" alt="Buy Me A Ko-fi" style="height: 45px !important;width: 163px !important;" ></a>
-<a href="https://www.buymeacoffee.com/petromirdzhunev" target="_blank"><img src="https://raw.githubusercontent.com/petromir/petromir/refs/heads/master/assets/bmc-button.svg" alt="Buy Me A Coffee" style="height: 45px !important;width: 163px !important;" ></a>
-<a href="https://github.com/sponsors/petromir" target="_blank"><img src="https://raw.githubusercontent.com/petromir/petromir/refs/heads/master/assets/github-sponsor-button.svg" alt="GitHub Sponsor" style="height: 45px !important;width: 163px !important;" ></a>
+<a href="https://ko-fi.com/petromirdzhunev" target="_blank"><img src="https://raw.githubusercontent.com/petromir/petromir/refs/heads/master/assets/kofi-button.svg" alt="Buy Me A Ko-fi" style="height: 45px !important;width: 163px !important;" >
+</a>
+<a href="https://www.buymeacoffee.com/petromirdzhunev" target="_blank"><img src="https://raw.githubusercontent.com/petromir/petromir/refs/heads/master/assets/bmc-button.svg" alt="Buy Me A Coffee" style="height: 45px !important;width: 163px !important;" >
+</a>
+<a href="https://github.com/sponsors/petromir" target="_blank"><img src="https://raw.githubusercontent.com/petromir/petromir/refs/heads/master/assets/github-sponsor-button.svg" alt="GitHub Sponsor" style="height: 45px !important;width: 163px !important;" >
+</a>
+

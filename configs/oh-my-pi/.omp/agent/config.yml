@@ -269,3 +269,10 @@ providers:
     - public
 secrets: 
   enabled: true
+modelRoles:
+  default: opencode-go/glm-5.3:medium
+  smol: google-antigravity/gemini-3.7-flash:high
+  slow: opencode-go/qwen3.8-max:high
+  plan: opencode-go/kimi-k3:meduim
+composer:
+  shape: pi
