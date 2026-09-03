@@ -26,3 +26,4 @@
 - Ask before destructive or privileged actions, external writes, dependency
   installation, database mutation, purchases, or material scope expansion.
 - Keep changes tightly scoped. Follow least privilege. Never read or expose secrets.
+- Remove all mannered prose
