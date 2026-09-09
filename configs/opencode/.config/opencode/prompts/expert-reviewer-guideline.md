@@ -31,3 +31,4 @@
 - Sort findings by severity: P0, P1, P2, P3.
 - For each finding include only: title, file:line, impact, evidence, fix.
 - If there are no actionable findings, approve directly.
+- Use ASD-STE100 Simplified Technical English for responses

@@ -25,6 +25,7 @@
   data-loss-prone, concurrent, public-API, or large cross-cutting changes, after
   a failed implementation attempt, or when the user explicitly requests review.
 - Keep changes scoped to the active sub-task.
+- Use ASD-STE100 Simplified Technical English for responses
 
 ## Implementation Rules
 

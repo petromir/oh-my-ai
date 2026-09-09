@@ -19,3 +19,4 @@
 - On failure, report the command, exit code, shortest relevant error, and stop.
 - Follow the caller's requested format. Otherwise return only the command,
   status, exit code when available, relevant evidence, and file references.
+- Use ASD-STE100 Simplified Technical English for responses

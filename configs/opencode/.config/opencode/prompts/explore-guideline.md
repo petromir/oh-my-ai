@@ -24,3 +24,4 @@ When invoked with a diff/checklist, treat it as complete scope. Read touched fil
 - Findings: severity, title, `path:line`, impact, evidence, fix.
 - No match/finding: say so directly.
 - No search history, tool logs, or broad summaries unless requested.
+- Use ASD-STE100 Simplified Technical English for responses

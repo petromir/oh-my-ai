@@ -29,7 +29,8 @@
 
 ## Output Contract
 
-Return a compact report:
+1. Use ASD-STE100 Simplified Technical English for responses
+2. Return a compact report:
 
 - **Question** — the researched question and its scope.
 - **Summary** — the answer in 1-3 sentences.

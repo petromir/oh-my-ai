@@ -195,7 +195,7 @@
   "agent": {
     "general": {
       "description": "Cost-conscious primary orchestrator for normal use and specialist handoffs",
-      "model": "opencode-go/glm-5.2",
+      "model": "opencode-go/glm-5.3",
       "mode": "primary",
       "variant": "medium",
       "permission": {
@@ -215,8 +215,8 @@
     },
     "build": {
       "description": "Implementation agent reserved for non-trivial coding",
-      "model": "opencode-go/glm-5.2",
-      "mode": "subagent",
+      "model": "opencode-go/deepseek-v4-pro",
+      "mode": "all",
       "variant": "medium",
       "permission": {
         "task": {
@@ -231,7 +231,7 @@
     "plan": {
       "description": "Research and structured implementation planning subagent",
       "model": "opencode-go/kimi-k3",
-      "mode": "subagent",
+      "mode": "all",
       "variant": "medium",
       "permission": {
         "edit": {
@@ -246,12 +246,12 @@
           "executor": "allow"
         }
       },
-      "prompt": "{file:~/.agents/skills/planning/SKILL.md}"
+      "prompt": "{file:./skills/planning/SKILL.md}"
     },
     "explore": {
       "description": "Semantic codebase exploration",
       "model": "opencode-go/deepseek-v4-pro",
-      "mode": "subagent",
+      "mode": "all",
       "hidden": false,
       "permission": {
         "edit": "deny",
@@ -262,7 +262,7 @@
     "researcher": {
       "description": "Read-only research subagent for evidence gathering, option comparison, and sourced recommendations",
       "model": "opencode-go/kimi-k3",
-      "mode": "subagent",
+      "mode": "all",
       "variant": "high",
       "hidden": false,
       "permission": {
@@ -282,8 +282,8 @@
     },
     "executor": {
       "description": "Default execution subagent for bash commands, tests, builds, and validation",
-      "model": "google/gemini-3.7-flash",
-      "mode": "subagent",
+      "model": "google/gemini-3.8-flash",
+      "mode": "all",
       "hidden": false,
       "variant": "high",
       "steps": 4,
@@ -295,9 +295,9 @@
     },
     "simplifier": {
       "description": "Review changed code for reuse, quality, and efficiency, then fix worthwhile issues",
-      "model": "opencode-go/kimi-k3",
+      "model": "cline-pass/kimi-k3",
       "variant": "medium",
-      "mode": "subagent",
+      "mode": "all",
       "hidden": false,
       "permission": {
         "task": {
@@ -305,13 +305,13 @@
           "executor": "allow"
         }
       },
-      "prompt": "{file:~/.agents/skills/simplify/SKILL.md}"
+      "prompt": "{file:./skills/simplify/SKILL.md}"
     },
     "reviewer": {
       "description": "Automated risk-adaptive multi-pass code review agent",
-      "model": "opencode-go/kimi-k3",
-      "variant": "xhigh",
-      "mode": "subagent",
+      "model": "cline-pass/qwen3.8-max",
+      "variant": "high",
+      "mode": "all",
       "hidden": false,
       "permission": {
         "edit": {
@@ -322,13 +322,13 @@
         },
         "task": "deny"
       },
-      "prompt": "{file:~/.agents/skills/code-review/SKILL.md}"
+      "prompt": "{file:./skills/code-review/SKILL.md}"
     },
     "expert-reviewer": {
       "description": "In-depth final review with premium model",
       "model": "opencode-go/kimi-k3",
       "variant": "high",
-      "mode": "subagent",
+      "mode": "all",
       "hidden": false,
       "permission": {
         "edit": {
@@ -343,10 +343,6 @@
         }
       },
       "prompt": "{file:./prompts/expert-reviewer-guideline.md}"
-    },
-    "java-modernizer": {
-      "description": "Modernizes Java projects",
-      "mode": "subagent"
     }
   }
 }
