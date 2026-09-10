@@ -227,7 +227,7 @@
           "reviewer": "allow"
         }
       },
-      "prompt": "{file:./prompts/coding-guideline.md}\n\n{file:./prompts/tool-routing.md}"
+      "prompt": "{file:./prompts/coding-guideline.md}"
     },
     "plan": {
       "description": "Research and structured implementation planning subagent",
@@ -238,7 +238,6 @@
       "permission": {
         "edit": {
           "*": "deny",
-          ".work/*": "allow",
           "~/agent-vault": "allow",
           "~/agent-vault/*": "allow"
         },
@@ -270,7 +269,6 @@
       "permission": {
         "edit": {
           "*": "deny",
-          ".work/*": "allow",
           "~/agent-vault": "allow",
           "~/agent-vault/*": "allow"
         },
@@ -318,7 +316,6 @@
       "permission": {
         "edit": {
           "*": "deny",
-          ".work/*": "allow",
           "~/agent-vault": "allow",
           "~/agent-vault/*": "allow"
         },
@@ -335,7 +332,6 @@
       "permission": {
         "edit": {
           "*": "deny",
-          ".work/*": "allow",
           "~/agent-vault": "allow",
           "~/agent-vault/*": "allow"
         },

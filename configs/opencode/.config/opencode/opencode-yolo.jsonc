@@ -159,7 +159,6 @@
       "permission": {
         "edit": {
           "*": "deny",
-          ".work/*": "allow",
           "~/agent-vault": "allow",
           "~/agent-vault/*": "allow"
         },
@@ -193,7 +192,6 @@
       "permission": {
         "edit": {
           "*": "deny",
-          ".work/*": "allow",
           "~/agent-vault": "allow",
           "~/agent-vault/*": "allow"
         },
@@ -243,7 +241,6 @@
       "permission": {
         "edit": {
           "*": "deny",
-          ".work/*": "allow",
           "~/agent-vault": "allow",
           "~/agent-vault/*": "allow"
         },
@@ -261,7 +258,6 @@
       "permission": {
         "edit": {
           "*": "deny",
-          ".work/*": "allow",
           "~/agent-vault": "allow",
           "~/agent-vault/*": "allow"
         },
