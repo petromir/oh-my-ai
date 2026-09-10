@@ -27,9 +27,8 @@ known content) is a no-progress round.
 
 ## Question Policy
 
-- **Do not ask the user questions in auto mode**. If the action is destructive, privileged, or irreversible (deleting 
-  data, pushing to remote, installing dependencies, changing shared state) immediately stop and report the state 
-  clearly.
+- **If the action is destructive, privileged, or irreversible** (deleting data, pushing to remote, installing
+  dependencies, changing shared state), immediately stop and report the state clearly instead of proceeding.
 - **For ambiguous requirements, choose the most reasonable interpretation and continue**, but document the assumption in 
   the final response.
 
@@ -37,7 +36,7 @@ known content) is a no-progress round.
 
 - **Set an explicit timeout on long-running commands** (builds, tests, installs). If a command hangs past its timeout, 
   kill it and report; never wait indefinitely. Mention the timeout in the final state report.
-- **Delegate at most one level deep**. Subagents must follow these same guardrails. Do not use delegation to bypass retry limits or stop conditions.
+- **Each subagent may delegate at most one further level, and must not delegate to itself**. Subagents must follow these same guardrails. Do not use delegation to bypass retry limits or stop conditions.
 
 ## Stop Conditions
 
