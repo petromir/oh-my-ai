@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "autoupdate": false,
+  "autoupdate": true,
   "share": "disabled",
   "provider": {
     "unsloth-mlx-local": {
@@ -31,12 +31,10 @@
       }
     }
   },
-  "model": "opencode-go/glm-5.2",
-  "small_model": "opencode-go/qwen3.7-max",
-  "lsp": true,
   "instructions": [
     "./prompts/task-artifact-gate.md",
-    "./prompts/tool-routing.md"
+    "./prompts/tool-routing.md",
+    "./prompts/hard-guardrails.md"
   ],
   "mcp": {
     "fff": {
@@ -46,13 +44,15 @@
       ]
     }
   },
+  "model": "opencode-go/glm-5.3",
+  "small_model": "google/gemini-3.8-flash",
+  "lsp": true,
   "permission": {
     "external_directory": {
       "/tmp/*": "allow",
-      "~/agent-vault": "allow",
-      "~/agent-vault/*": "allow",
       "~/.m2": "allow"
     },
+    "doom_loop": "deny",
     "read": {
       "~/.ssh/*": "deny",
       "~/.gnupg/*": "deny",
@@ -61,8 +61,6 @@
       "~/.kube/*": "deny",
       "~/.docker/*": "deny",
       "~/.config/gcloud/*": "deny",
-      ".env*": "ask",
-      "*/.env*": "ask",
       "*.pem": "deny",
       "*.key": "deny",
       "*.p12": "deny",
@@ -80,7 +78,6 @@
       "~/.kube/*": "deny",
       "~/.docker/*": "deny",
       "~/.config/gcloud/*": "deny",
-      ".env*": "ask",
       "*/.env*": "ask",
       "*.pem": "deny",
       "*.key": "deny",
@@ -89,53 +86,9 @@
       "*credentials*": "deny"
     },
     "bash": {
-      "*": "ask",
-      "cd *": "allow",
-      "echo * > *": "ask",
-      "echo * >> *": "ask",
-      "echo * | sh*": "ask",
-      "echo * | bash*": "ask",
-      "echo *": "allow",
-      "mkdir*": "allow",
-      "ls*": "allow",
-      "cat*": "allow",
-      "grep*": "allow",
-      "rg*": "allow",
-      "nl*": "allow",
-      "find*": "allow",
-      "sort*": "allow",
-      "head*": "allow",
-      "tail*": "allow",
-      "bash -n*": "allow",
-      "shellcheck*": "allow",
-      "tree*": "allow",
-      "which *": "allow",
-      "javap *": "allow",
-      "unzip -l*": "allow",
-      "xmllint --noout*": "allow",
-      "xmllint --format*": "allow",
-      "curl *": "allow",
-      "curl * -X*": "ask",
-      "curl * --request*": "ask",
-      "curl * -d*": "ask",
-      "curl * --data*": "ask",
-      "curl * -F*": "ask",
-      "curl * --form*": "ask",
-      "curl * -T*": "ask",
-      "curl * --upload-file*": "ask",
-      "curl * --json*": "ask",
-      "curl * -o*": "ask",
-      "curl * --output*": "ask",
-      "curl * -O*": "ask",
-      "curl * --remote-name*": "ask",
-      "jq *": "allow",
-      "jq *>*": "ask",
-      "wget *": "ask",
-      "ssh *": "ask",
-      "scp *": "ask",
-      "brew install *": "ask",
-      "npm publish *": "ask",
-      "*.env*": "ask",
+      "ssh *": "deny",
+      "scp *": "deny",
+      "npm publish *": "deny",
       "*.pem*": "deny",
       "*.key*": "deny",
       "*.p12*": "deny",
@@ -147,49 +100,14 @@
       "*/.kube/*": "deny",
       "*/.docker/*": "deny",
       "*/.config/gcloud/*": "deny",
-      "rm *": "ask",
-      "sudo rm *": "ask",
       "chmod -R *": "ask",
       "chmod 000 *": "ask",
       "chmod 0 *": "ask",
       "chown *": "ask",
-      "sudo chown *": "ask",
-      "dd *": "ask",
-      "mkfs*": "ask",
-      "shutdown*": "ask",
-      "reboot*": "ask",
-      "halt*": "ask",
-      "poweroff*": "ask",
-      "init 0*": "ask",
-      "init 6*": "ask",
-      "killall *": "ask",
-      "pkill *": "ask",
-      "kill -9 *": "ask",
-      "git push --force*": "ask",
-      "git push -f*": "ask",
-      "git reset --hard*": "ask",
-      "git clean -f*": "ask",
-      "git checkout -- *": "ask",
-      "git restore *": "ask",
-      "git diff*": "allow",
-      "git status*": "allow",
-      "git log*": "allow",
-      "git show*": "allow",
-      "git branch*": "allow",
-      "git remote*": "allow",
-      "git config user.*": "allow",
-      "git config --get*": "allow",
-      "./mvnw clean test*": "allow",
-      "./mvnw -q clean test*": "allow",
-      "./mvnw clean compile*": "allow",
-      "./mvnw clean test-compile*": "allow",
-      "./mvnw -q clean test-compile*": "allow",
-      "./mvnw dependency:tree*": "allow",
-      "./mvnw -q dependency:tree*": "allow",
-      "./mvnw -DskipTests dependency:tree*": "allow",
-      "./mvnw -q -DskipTests dependency:tree*": "allow",
-      "./mvnw dependency:build-classpath*": "allow",
-      "./mvnw dependency:get*": "allow"
+      "sudo chown *": "deny",
+      "*": "allow",
+      "git push *": "deny",
+      "git commit *": "deny"
     }
   },
   "default_agent": "general",
@@ -212,13 +130,15 @@
           "expert-reviewer": "allow"
         }
       },
-      "prompt": "{file:./prompts/general-guideline.md}"
+      "prompt": "{file:./prompts/general-guideline.md}",
+      "steps": 100
     },
     "build": {
       "description": "Implementation agent reserved for non-trivial coding",
       "model": "opencode-go/deepseek-v4-pro",
       "mode": "all",
-      "variant": "medium",
+      "hidden": false,
+      "variant": "high",
       "permission": {
         "task": {
           "*": "deny",
@@ -227,7 +147,8 @@
           "reviewer": "allow"
         }
       },
-      "prompt": "{file:./prompts/coding-guideline.md}\n\n{file:./prompts/tool-routing.md}"
+      "prompt": "{file:./prompts/coding-guideline.md}",
+      "steps": 100
     },
     "plan": {
       "description": "Research and structured implementation planning subagent",
@@ -248,7 +169,8 @@
           "executor": "allow"
         }
       },
-      "prompt": "{file:./skills/planning/SKILL.md}"
+      "prompt": "{file:./prompts/planning-guideline.md}",
+      "steps": 100
     },
     "explore": {
       "description": "Semantic codebase exploration",
@@ -259,7 +181,8 @@
         "edit": "deny",
         "task": "deny"
       },
-      "prompt": "{file:./prompts/explore-guideline.md}"
+      "prompt": "{file:./prompts/explore-guideline.md}",
+      "steps": 100
     },
     "researcher": {
       "description": "Read-only research subagent for evidence gathering, option comparison, and sourced recommendations",
@@ -280,7 +203,8 @@
           "executor": "allow"
         }
       },
-      "prompt": "{file:./prompts/researcher-guideline.md}"
+      "prompt": "{file:./prompts/researcher-guideline.md}",
+      "steps": 100
     },
     "executor": {
       "description": "Default execution subagent for bash commands, tests, builds, and validation",
@@ -307,7 +231,8 @@
           "executor": "allow"
         }
       },
-      "prompt": "{file:./skills/simplify/SKILL.md}"
+      "prompt": "{file:./prompts/simplify-guideline.md}",
+      "steps": 100
     },
     "reviewer": {
       "description": "Automated risk-adaptive multi-pass code review agent",
@@ -324,7 +249,8 @@
         },
         "task": "deny"
       },
-      "prompt": "{file:./skills/code-review/SKILL.md}"
+      "prompt": "{file:./prompts/code-review-guideline.md}",
+      "steps": 100
     },
     "expert-reviewer": {
       "description": "In-depth final review with premium model",
@@ -344,7 +270,8 @@
           "executor": "allow"
         }
       },
-      "prompt": "{file:./prompts/expert-reviewer-guideline.md}"
+      "prompt": "{file:./prompts/expert-reviewer-guideline.md}",
+      "steps": 100
     }
   }
 }
