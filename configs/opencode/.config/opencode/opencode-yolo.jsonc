@@ -135,7 +135,7 @@
     },
     "build": {
       "description": "Implementation agent reserved for non-trivial coding",
-      "model": "opencode-go/deepseek-v4-pro",
+      "model": "opencode-go/deepseek-v4.1-flash",
       "mode": "all",
       "hidden": false,
       "variant": "high",
@@ -168,7 +168,7 @@
           "executor": "allow"
         }
       },
-      "prompt": "{file:./prompts/planning-guideline.md}",
+      "prompt": "{file:./skills/planning/SKILL.md}",
       "steps": 100
     },
     "explore": {
@@ -229,7 +229,7 @@
           "executor": "allow"
         }
       },
-      "prompt": "{file:./prompts/simplify-guideline.md}",
+      "prompt": "{file:./skills/simplify/SKILL.md}",
       "steps": 100
     },
     "reviewer": {
@@ -246,7 +246,7 @@
         },
         "task": "deny"
       },
-      "prompt": "{file:./prompts/code-review-guideline.md}",
+      "prompt": "{file:./skills/code-review/SKILL.md}",
       "steps": 100
     },
     "expert-reviewer": {

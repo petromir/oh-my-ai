@@ -216,7 +216,7 @@
     },
     "build": {
       "description": "Implementation agent reserved for non-trivial coding",
-      "model": "opencode-go/deepseek-v4-pro",
+      "model": "opencode-go/deepseek-v4.1-flash",
       "mode": "all",
       "variant": "medium",
       "permission": {
