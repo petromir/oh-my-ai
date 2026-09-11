@@ -251,7 +251,7 @@
     },
     "explore": {
       "description": "Semantic codebase exploration",
-      "model": "opencode-go/deepseek-v4-pro",
+      "model": "google/qwen3.8-flash",
       "mode": "all",
       "hidden": false,
       "permission": {
@@ -295,7 +295,7 @@
     },
     "simplifier": {
       "description": "Review changed code for reuse, quality, and efficiency, then fix worthwhile issues",
-      "model": "cline-pass/kimi-k3",
+      "model": "cline-pass/cline-pass/kimi-k3",
       "variant": "medium",
       "mode": "all",
       "hidden": false,
@@ -309,7 +309,7 @@
     },
     "reviewer": {
       "description": "Automated risk-adaptive multi-pass code review agent",
-      "model": "cline-pass/qwen3.8-max",
+      "model": "cline-pass/cline-pass/qwen3.8-max",
       "variant": "high",
       "mode": "all",
       "hidden": false,

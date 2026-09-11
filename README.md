@@ -26,6 +26,7 @@ By default, the script targets **all** assistants and skips existing files/direc
 
 - `-f`: Force override existing configs/skills.
 - `-s`: Skip installing shared skills; only assistant configs are installed.
+- `-m <mode>`: Config mode (OpenCode only). The only valid value is `yolo`, which installs `opencode-yolo.jsonc` as `opencode.jsonc`. Omit it for the default behaviour (install `opencode.jsonc` only).
 - `-a <assistant>`: Specify target assistant (`opencode`, `pi`, `oh-my-pi`, `agents`, `gemini`, `copilot`, `claude`, or `all`). You can also provide a comma-separated list.
 
 **Examples:**
@@ -43,6 +44,11 @@ By default, the script targets **all** assistants and skips existing files/direc
 ```bash
 # Install assistant configs only, skipping shared skills
 ./install-configs.sh -s -a gemini
+```
+
+```bash
+# Install OpenCode in yolo mode
+./install-configs.sh -m yolo -a opencode
 ```
 
 #### Removing Configs &amp; Skills

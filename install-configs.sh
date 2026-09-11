@@ -12,7 +12,7 @@
 # directory untouched.
 #
 # Usage:
-#   ./install-configs.sh [-f] [-s] [-a assistant]
+#   ./install-configs.sh [-f] [-s] [-m mode] [-a assistant]
 #   ./install-configs.sh remove configs [-a assistant]
 #   ./install-configs.sh remove skills [-a assistant]
 #
@@ -25,6 +25,9 @@
 #   -f              Force override existing configs/skills (install only).
 #   -s              Skip installing shared skills; assistant configs only
 #                   (install only).
+#   -m <mode>       Config mode (OpenCode only). Valid value: yolo, which
+#                   installs opencode-yolo.jsonc as opencode.jsonc. Omit for
+#                   the default behaviour (install opencode.jsonc only).
 #   -a <assistant>  Target assistant: gemini, copilot, claude, opencode, pi,
 #                   oh-my-pi, agents, or all (default). Accepts a
 #                   comma-separated list.
@@ -35,6 +38,7 @@
 #   ./install-configs.sh -a opencode           # Install only for OpenCode
 #   ./install-configs.sh -f -a opencode,pi     # Force-install for OpenCode and Pi
 #   ./install-configs.sh -s -a gemini          # Install Gemini configs, no skills
+#   ./install-configs.sh -m yolo -a opencode   # Install OpenCode in yolo mode
 #   ./install-configs.sh remove configs -a pi  # Remove Pi's installed configs
 #   ./install-configs.sh remove skills         # Remove shared skills everywhere
 #
@@ -51,6 +55,10 @@ REPO_ROOT="${SCRIPT_DIR}"
 readonly REPO_ROOT
 
 readonly SKILLS_SOURCE="${REPO_ROOT}/configs/common/.agents/skills"
+
+# Config entries installed through the -m/--mode option rather than copied
+# directly by install_config_dir.
+readonly -a MODE_MANAGED_FILES=("opencode.jsonc" "opencode-yolo.jsonc")
 
 # Assistant configuration sources and targets: "key:Name:SourceDir:TargetDir"
 readonly -a CONFIG_TARGETS=(
@@ -74,6 +82,8 @@ readonly -a SKILL_TARGETS=(
 FORCE=false
 ASSISTANT="all"
 SKIP_SKILLS=false
+MODE=""
+NORMALIZED_ARGS=()
 
 # Cleanup function
 finish() {
@@ -84,11 +94,12 @@ trap finish EXIT ERR
 
 # Prints CLI usage/help to stdout. Args: none. Output: usage text. Returns: 0.
 usage() {
-  printf "Usage: %s [-f] [-s] [-a assistant]\n" "${0}"
+  printf "Usage: %s [-f] [-s] [-m mode] [-a assistant]\n" "${0}"
   printf "       %s remove configs [-a assistant]\n" "${0}"
   printf "       %s remove skills [-a assistant]\n" "${0}"
   printf "  -f: Force override existing configs/skills (install only)\n"
   printf "  -s: Skip installing shared skills (install only)\n"
+  printf "  -m: Config mode (OpenCode only): yolo. Default: opencode.jsonc\n"
   printf "  -a: Specify assistant (gemini, copilot, claude, opencode, pi, oh-my-pi, agents, all). Default: all\n"
   printf "  remove configs: Remove previously installed assistant config directories\n"
   printf "  remove skills:  Remove previously installed shared skills\n"
@@ -154,7 +165,21 @@ should_install_assistant() {
   return 1
 }
 
+# Tests whether basename is selected by the -m/--mode option.
+# Args: basename. Returns: 0 if mode-managed, 1 otherwise.
+is_mode_managed_file() {
+  local base="${1}"
+  local managed
+  for managed in "${MODE_MANAGED_FILES[@]}"; do
+    if [[ "${base}" == "${managed}" ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
 # Copies every top-level entry of src_dir into target_dir via copy_if_needed.
+# Entries managed by the -m/--mode option are skipped.
 # Args: name, src_dir, target_dir. Output: progress to stdout. Returns: 0.
 install_config_dir() {
   local name="${1}"
@@ -169,11 +194,38 @@ install_config_dir() {
   printf "Installing %s configurations...\n" "${name}"
   mkdir -p -- "${target_dir}"
 
-  local item
+  local item base
   for item in "${src_dir}"/*; do
     [[ -e "${item}" ]] || continue
-    copy_if_needed "${item}" "${target_dir}/$(basename "${item}")"
+    base="$(basename "${item}")"
+    if is_mode_managed_file "${base}"; then
+      continue
+    fi
+    copy_if_needed "${item}" "${target_dir}/${base}"
   done
+  return 0
+}
+
+# Installs the mode-selected OpenCode config as opencode.jsonc in target_dir.
+# Args: src_dir, target_dir. Output: progress to stdout. Returns: 1 if the
+# selected source file is missing.
+install_opencode_mode_config() {
+  local src_dir="${1}"
+  local target_dir="${2}"
+  local src
+
+  if [[ "${MODE}" == "yolo" ]]; then
+    src="${src_dir}/opencode-yolo.jsonc"
+  else
+    src="${src_dir}/opencode.jsonc"
+  fi
+
+  if [[ ! -e "${src}" ]]; then
+    printf "Error: %s not found.\n" "${src}" >&2
+    return 1
+  fi
+
+  copy_if_needed "${src}" "${target_dir}/opencode.jsonc"
   return 0
 }
 
@@ -252,6 +304,9 @@ do_install() {
     IFS=":" read -r key name src dest <<< "${cfg}"
     if should_install_assistant "${key}"; then
       install_config_dir "${name}" "${src}" "${dest}"
+      if [[ "${key}" == "opencode" ]]; then
+        install_opencode_mode_config "${src}" "${dest}"
+      fi
     fi
   done
 
@@ -303,6 +358,22 @@ do_remove_skills() {
   return 0
 }
 
+# Drops a bare `-m` that has no value (last arg or followed by an option) so
+# getopts keeps the default mode. Sets NORMALIZED_ARGS. Args: script argv.
+# Returns: 0.
+normalize_mode_arg() {
+  NORMALIZED_ARGS=()
+  while [[ $# -gt 0 ]]; do
+    if [[ "${1}" == "-m" ]] && { [[ $# -eq 1 ]] || [[ "${2}" == -* ]]; }; then
+      shift
+    else
+      NORMALIZED_ARGS+=("${1}")
+      shift
+    fi
+  done
+  return 0
+}
+
 # Parses the CLI command/options and dispatches to the matching do_* handler.
 # Args: script argv. Returns: 0.
 main() {
@@ -322,16 +393,30 @@ main() {
     shift
   fi
 
-  while getopts "fsa:h" opt; do
+  normalize_mode_arg "$@"
+  if [[ ${#NORMALIZED_ARGS[@]} -gt 0 ]]; then
+    set -- "${NORMALIZED_ARGS[@]}"
+  else
+    set --
+  fi
+
+  while getopts "fsm:a:h" opt; do
     case "${opt}" in
       f) FORCE=true ;;
       s) SKIP_SKILLS=true ;;
+      m) MODE="${OPTARG}" ;;
       a) ASSISTANT="${OPTARG}" ;;
       h) usage; exit 0 ;;
       *) usage; exit 1 ;;
     esac
   done
   shift $((OPTIND - 1))
+
+  if [[ -n "${MODE}" && "${MODE}" != "yolo" ]]; then
+    printf "Error: Invalid mode '%s'. Valid mode: yolo\n" "${MODE}" >&2
+    usage
+    exit 1
+  fi
 
   if [[ $# -gt 0 ]]; then
     printf "Error: Unexpected argument(s): %s\n" "$*" >&2
