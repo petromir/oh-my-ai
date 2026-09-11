@@ -206,7 +206,7 @@
     },
     "executor": {
       "description": "Default execution subagent for bash commands, tests, builds, and validation",
-      "model": "google/gemini-3.8-flash",
+      "model": "opencode-go/qwen3.8-flash",
       "mode": "all",
       "hidden": false,
       "variant": "high",
