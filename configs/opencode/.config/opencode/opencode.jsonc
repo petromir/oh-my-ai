@@ -251,7 +251,7 @@
     },
     "explore": {
       "description": "Semantic codebase exploration",
-      "model": "google/qwen3.8-flash",
+      "model": "google/gemini-3.8-flash",
       "mode": "all",
       "hidden": false,
       "permission": {
