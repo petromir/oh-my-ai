@@ -26,6 +26,8 @@ tools:
   approval:
     # eval runs raw code and can bypass bash.patterns denies; keep a human gate.
     eval: prompt
+hideThinkingBlock: true # TUI transcript rendering only. -p --print-thoughts prints thinking with the flag on or off
+omitThinking: true # Extends hideThinkingBlock, by signaling the provider to stop returning thinking summary. Not always be honored
 bash: 
   patterns: 
     - match: "*.pem*"

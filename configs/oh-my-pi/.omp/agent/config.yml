@@ -23,6 +23,8 @@ advisor:
 interruptMode: immediate
 tools:
   approvalMode: write
+hideThinkingBlock: true # TUI transcript rendering only. -p --print-thoughts prints thinking with the flag on or off
+omitThinking: true # Extends hideThinkingBlock, by signaling the provider to stop returning thinking summary. Not always be honored
 bash: 
   patterns: 
     - match: "wc *"
