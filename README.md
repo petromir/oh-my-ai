@@ -20,14 +20,14 @@ Running `install-configs.sh` does two things in one pass:
 
 By default, the script targets **all** assistants and skips existing files/directories.
 
-> **Note:** Config directories only exist for `gemini`, `opencode`, `pi`, and `oh-my-pi` — Copilot and Claude have no dedicated config folder and only receive shared skills. The Oh-My-Pi key is `oh-my-pi` (no `omp` alias).
+> **Note:** Config directories only exist for `gemini`, `opencode`, `pi`, and `omp` — Copilot and Claude have no dedicated config folder and only receive shared skills. The Oh-My-Pi key is `omp` (its config lives in `~/.omp/agent`); unknown names are rejected with an error and a non-zero exit code, so a typo can never pass as a successful no-op.
 
 #### Options
 
 - `-f`: Force override existing configs/skills.
 - `-s`: Skip installing shared skills; only assistant configs are installed.
 - `-m <mode>`: Config mode (OpenCode and Oh-My-Pi only). The only valid value is `yolo`, which installs each assistant's yolo variant as its regular config file: `opencode-yolo.jsonc` as `opencode.jsonc` and `config-yolo.yml` as `config.yml`. Omit it for the default behaviour (standard configs only).
-- `-a <assistant>`: Specify target assistant (`opencode`, `pi`, `oh-my-pi`, `agents`, `gemini`, `copilot`, `claude`, or `all`). You can also provide a comma-separated list.
+- `-a <assistant>`: Specify target assistant (`opencode`, `pi`, `omp`, `agents`, `gemini`, `copilot`, `claude`, or `all`). You can also provide a comma-separated list. Unknown names are rejected with an error; any list containing `all` selects every assistant.
 
 **Examples:**
 
@@ -53,10 +53,10 @@ By default, the script targets **all** assistants and skips existing files/direc
 
 ```bash
 # Install Oh-My-Pi in yolo mode
-./install-configs.sh -m yolo -a oh-my-pi
+./install-configs.sh -m yolo -a omp
 ```
 
-> **Note (Oh-My-Pi yolo trade-off):** `config-yolo.yml` keeps only `deny` and `prompt` bash rules. The `allow` rules are omitted because `yolo` auto-approves those commands anyway. As a result, if you later run `omp --approval-mode write`, every bash command prompts, since no `allow` rules remain to auto-approve safe commands. Reinstall the standard config (`./install-configs.sh -f -a oh-my-pi`) if you need the allow list.
+> **Note (Oh-My-Pi yolo trade-off):** `config-yolo.yml` keeps only `deny` and `prompt` bash rules. The `allow` rules are omitted because `yolo` auto-approves those commands anyway. As a result, if you later run `omp --approval-mode write`, every bash command prompts, since no `allow` rules remain to auto-approve safe commands. Reinstall the standard config (`./install-configs.sh -f -a omp`) if you need the allow list.
 
 #### Removing Configs &amp; Skills
 

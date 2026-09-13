@@ -30,8 +30,8 @@
 #                   (opencode-yolo.jsonc, config-yolo.yml) as its regular
 #                   config file. Omit for the default configs.
 #   -a <assistant>  Target assistant: gemini, copilot, claude, opencode, pi,
-#                   oh-my-pi, agents, or all (default). Accepts a
-#                   comma-separated list.
+#                   omp, agents, or all (default). Accepts a
+#                   comma-separated list. Unknown names are rejected.
 #   -h              Show usage and exit.
 #
 # Examples:
@@ -40,7 +40,7 @@
 #   ./install-configs.sh -f -a opencode,pi    # Force-install for OpenCode and Pi
 #   ./install-configs.sh -s -a gemini         # Install Gemini configs, no skills
 #   ./install-configs.sh -m yolo -a opencode  # Install OpenCode in yolo mode
-#   ./install-configs.sh -m yolo -a oh-my-pi  # Install Oh-My-Pi in yolo mode
+#   ./install-configs.sh -m yolo -a omp    # Install Oh-My-Pi in yolo mode
 #   ./install-configs.sh remove configs -a pi # Remove Pi's installed configs
 #   ./install-configs.sh remove skills        # Remove shared skills everywhere
 #
@@ -70,7 +70,7 @@ readonly -a MODE_MANAGED_FILES=(
 # Mode-selectable config variants: "key:DefaultFile:YoloFile:InstalledFile".
 readonly -a MODE_CONFIG_TARGETS=(
   "opencode:opencode.jsonc:opencode-yolo.jsonc:opencode.jsonc"
-  "oh-my-pi:config.yml:config-yolo.yml:config.yml"
+  "omp:config.yml:config-yolo.yml:config.yml"
 )
 
 # Assistant configuration sources and targets: "key:Name:SourceDir:TargetDir"
@@ -78,7 +78,7 @@ readonly -a CONFIG_TARGETS=(
   "gemini:Gemini:${REPO_ROOT}/configs/gemini/.gemini:${HOME}/.gemini"
   "opencode:OpenCode:${REPO_ROOT}/configs/opencode/.config/opencode:${HOME}/.config/opencode"
   "pi:Pi:${REPO_ROOT}/configs/pi/.pi/agent:${HOME}/.pi/agent"
-  "oh-my-pi:Oh-My-Pi:${REPO_ROOT}/configs/oh-my-pi/.omp/agent:${HOME}/.omp/agent"
+  "omp:Oh-My-Pi:${REPO_ROOT}/configs/oh-my-pi/.omp/agent:${HOME}/.omp/agent"
 )
 
 # Assistant skill targets: "key:SkillsDir"
@@ -88,8 +88,19 @@ readonly -a SKILL_TARGETS=(
   "claude:${HOME}/.claude/skills"
   "opencode:${HOME}/.config/opencode/skills"
   "pi:${HOME}/.pi/agent/skills"
-  "oh-my-pi:${HOME}/.omp/agent/skills"
+  "omp:${HOME}/.omp/agent/skills"
   "agents:${HOME}/.agents/skills"
+)
+
+# Assistant names accepted by the -a/--assistant option, in display order.
+readonly -a ASSISTANT_NAMES=(
+  "gemini"
+  "copilot"
+  "claude"
+  "opencode"
+  "pi"
+  "omp"
+  "agents"
 )
 
 FORCE=false
@@ -113,7 +124,8 @@ usage() {
   printf "  -f: Force override existing configs/skills (install only)\n"
   printf "  -s: Skip installing shared skills (install only)\n"
   printf "  -m: Config mode (OpenCode, Oh-My-Pi): yolo. Default: standard configs\n"
-  printf "  -a: Specify assistant (gemini, copilot, claude, opencode, pi, oh-my-pi, agents, all). Default: all\n"
+  printf "  -a: Specify assistant (gemini, copilot, claude, opencode, pi, omp, agents, all). Default: all\n"
+  printf "      Unknown names are rejected. Accepts a comma-separated list.\n"
   printf "  remove configs: Remove previously installed assistant config directories\n"
   printf "  remove skills:  Remove previously installed shared skills\n"
   return 0
@@ -158,6 +170,8 @@ remove_if_present() {
 }
 
 # Tests whether `key` should be processed given the ASSISTANT selection.
+# ASSISTANT is normalized by validate_assistant_selection, so exact
+# comma-delimited membership is sufficient and cannot match on prefixes.
 # Args: key. Returns: 0 if selected, 1 otherwise.
 should_install_assistant() {
   local key="${1}"
@@ -165,17 +179,57 @@ should_install_assistant() {
     return 0
   fi
 
-  # Guard against "oh-my-pi" matching "pi" when only "oh-my-pi" was requested
-  if [[ "${key}" == "pi" ]]; then
-    if [[ ",${ASSISTANT}," == *",oh-my-pi,"* && ",${ASSISTANT}," != *",pi,"* ]]; then
-      return 1
-    fi
-  fi
-
-  if [[ ",${ASSISTANT}," == *",${key},"* || "${ASSISTANT}" == *"${key}"* ]]; then
+  if [[ ",${ASSISTANT}," == *",${key},"* ]]; then
     return 0
   fi
   return 1
+}
+
+# Validates every comma-separated token of ASSISTANT against ASSISTANT_NAMES.
+# A selection containing "all" collapses to "all"; anything else is an error
+# so typos (e.g. `-a omp`) fail loudly instead of silently installing nothing.
+# Args: none. Output: error to stderr unless valid. Returns: 0 if valid,
+# 1 otherwise.
+validate_assistant_selection() {
+  local -a tokens=()
+  local -a invalid=()
+  local token name matched select_all=false
+
+  IFS="," read -r -a tokens <<< "${ASSISTANT}"
+  if [[ ${#tokens[@]} -eq 0 ]]; then
+    tokens=("${ASSISTANT}")
+  fi
+
+  for token in "${tokens[@]}"; do
+    if [[ "${token}" == "all" ]]; then
+      select_all=true
+      continue
+    fi
+
+    matched=false
+    for name in "${ASSISTANT_NAMES[@]}"; do
+      if [[ "${token}" == "${name}" ]]; then
+        matched=true
+        break
+      fi
+    done
+
+    if [[ "${matched}" != "true" ]]; then
+      invalid+=("${token}")
+    fi
+  done
+
+  if [[ ${#invalid[@]} -gt 0 ]]; then
+    local IFS=","
+    printf "Error: Unknown assistant(s): '%s'\n" "${invalid[*]}" >&2
+    printf "Valid values: %s, all (comma-separated lists allowed)\n" "${ASSISTANT_NAMES[*]}" >&2
+    return 1
+  fi
+
+  if [[ "${select_all}" == "true" ]]; then
+    ASSISTANT="all"
+  fi
+  return 0
 }
 
 # Tests whether basename is selected by the -m/--mode option.
@@ -432,6 +486,11 @@ main() {
 
   if [[ -n "${MODE}" && "${MODE}" != "yolo" ]]; then
     printf "Error: Invalid mode '%s'. Valid mode: yolo\n" "${MODE}" >&2
+    usage
+    exit 1
+  fi
+
+  if ! validate_assistant_selection; then
     usage
     exit 1
   fi
