@@ -173,7 +173,7 @@
     },
     "explore": {
       "description": "Semantic codebase exploration",
-      "model": "google/gemini-3.8-flash",
+      "model": "opencode-go/glm-5.3-flash",
       "mode": "all",
       "hidden": false,
       "permission": {

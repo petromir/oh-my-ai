@@ -270,9 +270,15 @@ providers:
 secrets: 
   enabled: true
 modelRoles:
-  default: opencode-go/glm-5.3:medium
-  smol: google-antigravity/gemini-3.7-flash:high
-  slow: opencode-go/qwen3.8-max:high
-  plan: opencode-go/kimi-k3:meduim
+  default: opencode-go/deepseek-v4.1-flash # Normal interactive work and the main-session default.
+  smol: google-antigravity/gemini-3.8-flash:high,opencode-go/qwen3.8-flash:xhigh # Fast, inexpensive utility work and the usual prewalk handoff target.
+  slow: opencode-go/qwen3.8-max:high,opencode-go/glm-5.3:high # Thorough reasoning and review where extra latency is acceptable.
+  plan: opencode-go/kimi-k3:meduim # Plan-mode architecture and review.
+# vision: <add>	Image inspection by a vision-capable model.
+  designer: opencode-go/qwen3.8-max:high	# The bundled designer agent.
+  commit: opencode-go/glm-5.3-flash:high	# Commit-message generation.
+  tiny: opencode-go/muse-spark-1.3-contributor # Very small background tasks such as titles, memory support, and speech cleanup.
+  task: opencode-go/deepseek-v4.1-flash #	General subagent work.
+  advisor: opencode-go/qwen3.8-max:high	# The independent model that reviews an opted-in session or worker.
 composer:
   shape: pi

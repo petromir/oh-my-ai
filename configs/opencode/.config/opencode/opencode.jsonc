@@ -31,8 +31,8 @@
       }
     }
   },
-  "model": "opencode-go/glm-5.2",
-  "small_model": "opencode-go/qwen3.7-max",
+  "model": "opencode-go/glm-5.3",
+  "small_model": "opencode-go/glm-5.3-flash",
   "lsp": true,
   "instructions": [
     "./prompts/task-artifact-gate.md",
@@ -251,7 +251,8 @@
     },
     "explore": {
       "description": "Semantic codebase exploration",
-      "model": "google/gemini-3.8-flash",
+      "model": "opencode-go/glm-5.3-flash",
+      "variant": "high",
       "mode": "all",
       "hidden": false,
       "permission": {

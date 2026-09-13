@@ -1,0 +1,126 @@
+setupVersion: 1
+theme: 
+  light: light-catppuccin
+  dark: dark-catppuccin
+statusLine: 
+  preset: nerd
+  separator: pipe
+  sessionAccent: true
+  transparent: false
+  compactThinkingLevel: false
+  showHookStatus: true
+tui: 
+  textSizing: false
+  tight: false
+display: 
+  shimmer: classic
+includeWorkspaceTree: false
+personality: pragmatic
+retry: 
+  usageAwareFallback: false
+advisor: 
+  enabled: false
+interruptMode: immediate
+tools:
+  approvalMode: yolo
+  approval:
+    # eval runs raw code and can bypass bash.patterns denies; keep a human gate.
+    eval: prompt
+bash: 
+  patterns: 
+    - match: "*.pem*"
+      approval: deny
+    - match: "*.key*"
+      approval: deny
+    - match: "*.p12*"
+      approval: deny
+    - match: "*.jks*"
+      approval: deny
+    - match: "*/.ssh/*"
+      approval: deny
+    - match: "*/.gnupg/*"
+      approval: deny
+    - match: "*/.aws/*"
+      approval: deny
+    - match: "*/.azure/*"
+      approval: deny
+    - match: "*/.kube/*"
+      approval: deny
+    - match: "*/.docker/*"
+      approval: deny
+    - match: "*/.config/gcloud/*"
+      approval: deny
+    - match: "sudo chown *"
+      approval: deny
+    - match: "chmod -R *"
+      approval: prompt
+    - match: "chmod 000 *"
+      approval: prompt
+    - match: "chmod 0 *"
+      approval: prompt
+    - match: "chown *"
+      approval: prompt
+    - match: "git push *"
+      approval: deny
+    - match: "git commit *"
+      approval: deny
+    - match: "ssh *"
+      approval: deny
+    - match: "scp *"
+      approval: deny
+    - match: "npm publish *"
+      approval: deny
+completion: 
+  notify: "on"
+error: 
+  notify: "on"
+stt: 
+  enabled: true
+marketplace: 
+  autoUpdate: notify
+power: 
+  sleepPrevention: idle
+features: 
+  unexpectedStopDetection: false
+contextPromotion: 
+  enabled: false
+memory: 
+  backend: local
+autolearn: 
+  enabled: false
+  autoContinue: false
+edit: 
+  mode: hashline
+read: 
+  renderMarkdown: true
+  toolResultPreview: true
+lsp: 
+  formatOnWrite: false
+astGrep: 
+  enabled: true
+dev: 
+  autoqa: false
+task: 
+  enableEffort: false
+  enableLsp: true
+  isolation: 
+    commits: ai
+providers: 
+  webSearchOrder: 
+    - google
+    - duckduckgo
+    - public
+secrets: 
+  enabled: true
+modelRoles:
+  default: opencode-go/deepseek-v4.1-flash # Normal interactive work and the main-session default.
+  smol: google-antigravity/gemini-3.8-flash:high,opencode-go/qwen3.8-flash:xhigh # Fast, inexpensive utility work and the usual prewalk handoff target.
+  slow: opencode-go/qwen3.8-max:high,opencode-go/glm-5.3:high # Thorough reasoning and review where extra latency is acceptable.
+  plan: opencode-go/kimi-k3:meduim # Plan-mode architecture and review.
+# vision: <add>	Image inspection by a vision-capable model.
+  designer: opencode-go/qwen3.8-max:high	# The bundled designer agent.
+  commit: opencode-go/glm-5.3-flash:high	# Commit-message generation.
+  tiny: opencode-go/muse-spark-1.3-contributor # Very small background tasks such as titles, memory support, and speech cleanup.
+  task: opencode-go/deepseek-v4.1-flash #	General subagent work.
+composer:
+  shape: pi

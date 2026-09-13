@@ -26,7 +26,7 @@ By default, the script targets **all** assistants and skips existing files/direc
 
 - `-f`: Force override existing configs/skills.
 - `-s`: Skip installing shared skills; only assistant configs are installed.
-- `-m <mode>`: Config mode (OpenCode only). The only valid value is `yolo`, which installs `opencode-yolo.jsonc` as `opencode.jsonc`. Omit it for the default behaviour (install `opencode.jsonc` only).
+- `-m <mode>`: Config mode (OpenCode and Oh-My-Pi only). The only valid value is `yolo`, which installs each assistant's yolo variant as its regular config file: `opencode-yolo.jsonc` as `opencode.jsonc` and `config-yolo.yml` as `config.yml`. Omit it for the default behaviour (standard configs only).
 - `-a <assistant>`: Specify target assistant (`opencode`, `pi`, `oh-my-pi`, `agents`, `gemini`, `copilot`, `claude`, or `all`). You can also provide a comma-separated list.
 
 **Examples:**
@@ -50,6 +50,13 @@ By default, the script targets **all** assistants and skips existing files/direc
 # Install OpenCode in yolo mode
 ./install-configs.sh -m yolo -a opencode
 ```
+
+```bash
+# Install Oh-My-Pi in yolo mode
+./install-configs.sh -m yolo -a oh-my-pi
+```
+
+> **Note (Oh-My-Pi yolo trade-off):** `config-yolo.yml` keeps only `deny` and `prompt` bash rules. The `allow` rules are omitted because `yolo` auto-approves those commands anyway. As a result, if you later run `omp --approval-mode write`, every bash command prompts, since no `allow` rules remain to auto-approve safe commands. Reinstall the standard config (`./install-configs.sh -f -a oh-my-pi`) if you need the allow list.
 
 #### Removing Configs &amp; Skills
 
