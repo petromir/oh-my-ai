@@ -1,4 +1,4 @@
-setupVersion: 1
+setupVersion: 2 # omp CURRENT_SETUP_VERSION. A lower value re-runs the wizard scenes above it (2 = "Choose composer shape").
 theme: 
   light: light-catppuccin
   dark: dark-catppuccin
